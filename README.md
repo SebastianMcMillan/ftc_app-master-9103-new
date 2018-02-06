@@ -15,3 +15,12 @@ You'll need to setup a development environment to do work here.
 ..* Windows: [Click Me!](https://git-scm.com/download/win)
 ..* Linux: Install via your package manager (package name will be git)
 
+###Instructions
+
+1. Install all of those things.
+2. Open GitHub Desktop, sign in to the github account you are using to look at this.
+3. Clone a repository
+4. Select ftc_app-master-9103-new
+5. Open up Android Studio
+6. Install everything that it tells you to install
+7. Work on Robot
