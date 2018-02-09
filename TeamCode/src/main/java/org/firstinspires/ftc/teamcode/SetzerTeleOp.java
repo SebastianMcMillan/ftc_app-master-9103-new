@@ -38,24 +38,33 @@ public class SetzerTeleOp extends LinearOpMode {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) /*If the left stick is not neutral...*/ {
-            double drive = -gamepad1.left_stick_y; //Set the Drive to the negative value of the y-axis value
-            double turn = gamepad1.left_stick_x; //Set the turn to the value of the x-axis value
+        waitForStart();
+        runtime.reset();
 
-            double leftPower;
-            double rightPower;
-            leftPower = Range.clip(drive + turn, -1.0, 1.0); //fun math
-            rightPower = Range.clip(drive - turn, -1.0, 1.0); //fun math 2
+        while (opModeIsActive()) {
 
-            if (gamepad1.x) {
-                leftPower = leftPower/4;
-                rightPower = rightPower/4;
+            if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) /*If the left stick is not neutral...*/ {
+                double drive = -gamepad1.left_stick_y; //Set the Drive to the negative value of the y-axis value
+                double turn = gamepad1.left_stick_x; //Set the turn to the value of the x-axis value
+
+                double leftPower;
+                double rightPower;
+                leftPower = Range.clip(drive + turn, -1.0, 1.0); //fun math
+                rightPower = Range.clip(drive - turn, -1.0, 1.0); //fun math 2
+
+                frontLeft.setPower(leftPower / 3); //These are hopefully self-explanatory.
+                frontRight.setPower(rightPower / 3);
+                backLeft.setPower(leftPower / 3);
+                backRight.setPower(rightPower / 3);
+            if (gamepad1.left_stick_x == 0 || gamepad1.left_stick_y == 0){
+
+                frontLeft.setPower(0); //These are hopefully self-explanatory.
+                frontRight.setPower(0);
+                backLeft.setPower(0);
+                backRight.setPower(0);
+
             }
-
-            frontLeft.setPower(leftPower); //These are hopefully self-explanatory.
-            frontRight.setPower(rightPower);
-            backLeft.setPower(leftPower);
-            backRight.setPower(rightPower);
+            }
         }
     }
 }
