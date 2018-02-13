@@ -54,7 +54,7 @@ public class SetzerTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            int position = glyphMotor.getCurrentPosition();
+            int position = 0;
 
             telemetry.addData("Encoder Position", position);
 
@@ -90,30 +90,28 @@ public class SetzerTeleOp extends LinearOpMode {
                 glyphLeft.setPosition(0.7);
                 glyphRight.setPosition(0.3);
             }
-            if (gamepad1.dpad_up && glyphMotor.getCurrentPosition() >= 10000 ){
+            if (gamepad1.dpad_up && position > 10000 ){
 
-                glyphMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                glyphMotor.setTargetPosition(10000);
-                glyphMotor.setPower(1);
-                glyphMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                position = 10000;
+                glyphMotor.setPower(0);
             }
 
-            if(gamepad1.dpad_down && glyphMotor.getCurrentPosition() <= 0 ){
+            if(gamepad1.dpad_down && position < 0 ){
 
-                glyphMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                glyphMotor.setTargetPosition(0);
-                glyphMotor.setPower(-1);
-                glyphMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                glyphMotor.setPower(0);
+                position = 0;
             }
 
-            if(gamepad1.dpad_up && glyphMotor.getCurrentPosition() < 10000 && glyphMotor.getCurrentPosition() > 0){
+            if(gamepad1.dpad_up && position < 10000){
 
                 glyphMotor.setPower(1);
+                position = position + 1;
             }
 
-            if(gamepad1.dpad_down && glyphMotor.getCurrentPosition() < 10000 && glyphMotor.getCurrentPosition() > 0){
+            if(gamepad1.dpad_down && position >= 0){
 
                 glyphMotor.setPower(-1);
+                position = position - 1;
             }
 
 
