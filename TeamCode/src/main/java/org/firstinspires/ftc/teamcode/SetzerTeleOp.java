@@ -114,6 +114,10 @@ public class SetzerTeleOp extends LinearOpMode {
                 position = position - 1;
             }
 
+            if (!gamepad1.dpad_down && !gamepad1.dpad_up) {
+                glyphMotor.setPower(0);
+            }
+
 
         }
     }
