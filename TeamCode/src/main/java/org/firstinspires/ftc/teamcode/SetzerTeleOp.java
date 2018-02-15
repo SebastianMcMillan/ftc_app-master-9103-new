@@ -27,6 +27,10 @@ public class SetzerTeleOp extends LinearOpMode {
     private Servo glyphLeft; //Port 0 Hub 1
     private Servo glyphRight; //Port 1 Hub 1
     private DcMotor glyphMotor; //Port 0 Hub 2
+    private Servo Jewel; //Port 2 Hub 1
+    private DcMotor relicMotor1; //Port 0 Hub 2
+    private DcMotor relicMotor2; //Port 1 Hub 2
+    private  DcMotor relicMotor3; //Port 2 Hub 2
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -43,6 +47,12 @@ public class SetzerTeleOp extends LinearOpMode {
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
+        Jewel = hardwareMap.servo.get("Jewel");
+
+        relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
+        relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
+        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3")
+
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -54,9 +64,11 @@ public class SetzerTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            int position = 0;
+            int position = glyphMotor.getCurrentPosition();
 
             telemetry.addData("Encoder Position", position);
+
+            Jewel.setPosition(0);
 
             if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) /*If the left stick is not neutral...*/ {
                 double drive = -gamepad1.left_stick_y; //Set the Drive to the negative value of the y-axis value
@@ -90,33 +102,49 @@ public class SetzerTeleOp extends LinearOpMode {
                 glyphLeft.setPosition(0.7);
                 glyphRight.setPosition(0.3);
             }
-            if (gamepad1.dpad_up && position > 10000 ){
+            if (gamepad1.dpad_up && position >= 5000 ){
 
-                position = 10000;
                 glyphMotor.setPower(0);
             }
 
-            if(gamepad1.dpad_down && position < 0 ){
+            if (gamepad1.dpad_down && position <= 0 ){
 
                 glyphMotor.setPower(0);
-                position = 0;
             }
 
-            if(gamepad1.dpad_up && position < 10000){
+            if (gamepad1.dpad_up && position < 5000){
 
                 glyphMotor.setPower(1);
-                position = position + 1;
+
             }
 
-            if(gamepad1.dpad_down && position >= 0){
+            if (gamepad1.dpad_down && position > 0){
 
                 glyphMotor.setPower(-1);
-                position = position - 1;
             }
 
             if (!gamepad1.dpad_down && !gamepad1.dpad_up) {
                 glyphMotor.setPower(0);
             }
+
+            if (gamepad2.dpad_right){
+
+                relicMotor3.setPower(0.3);
+            }
+
+            if (gamepad2.dpad_left){
+
+                relicMotor3.setPower(-0.3);
+            }
+
+            if (gamepad2.left_stick_y != 0) {
+
+
+            }
+
+
+
+
 
 
         }
