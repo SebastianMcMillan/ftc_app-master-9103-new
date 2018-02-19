@@ -77,13 +77,13 @@ public class SetzerTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            int positionglyphMotor = glyphMotor.getCurrentPosition();
-            int positionrelicMotor1 = relicMotor1.getCurrentPosition();
-            int positionrelicMotor2 = relicMotor2.getCurrentPosition();
+            int positionGlyphMotor = glyphMotor.getCurrentPosition();
+            int positionRelicMotor1 = relicMotor1.getCurrentPosition();
+            int positionRelicMotor2 = relicMotor2.getCurrentPosition();
 
-            telemetry.addData("Encoder glyphMotor Position", positionglyphMotor);
-            telemetry.addData("Encoder relicMotor1", positionrelicMotor1);
-            telemetry.addData("Encoder relicMotor2 Position", positionrelicMotor2);
+            telemetry.addData("Encoder glyphMotor Position", positionGlyphMotor);
+            telemetry.addData("Encoder relicMotor1", positionRelicMotor1);
+            telemetry.addData("Encoder relicMotor2 Position", positionRelicMotor2);
             telemetry.update();
 
             jewelServo.setPosition(1);
@@ -119,22 +119,22 @@ public class SetzerTeleOp extends LinearOpMode {
                 glyphLeft.setPosition(0.7);
                 glyphRight.setPosition(0.3);
             }
-            if (gamepad1.dpad_up && positionglyphMotor >= 5000 ){
+            if (gamepad1.dpad_up && positionGlyphMotor >= 5000 ){
 
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad1.dpad_down && positionglyphMotor <= 0 ){
+            if (gamepad1.dpad_down && positionGlyphMotor <= 0 ){
 
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad1.dpad_up && positionglyphMotor < 5000){
+            if (gamepad1.dpad_up && positionGlyphMotor < 5000){
 
                 glyphMotor.setPower(1);
             }
 
-            if (gamepad1.dpad_down && positionglyphMotor > 0){
+            if (gamepad1.dpad_down && positionGlyphMotor > 0){
 
                 glyphMotor.setPower(-1);
             }
