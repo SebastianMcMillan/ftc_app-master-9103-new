@@ -102,11 +102,6 @@ public class SetzerAuton extends LinearOpMode
         // Loop and update the dashboard
         while (opModeIsActive()) {
             telemetry.update();
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/SensorBNO055IMU.java
-
-=======
->>>>>>> 86518b1a5f5c0e48a603f3fe20d8bad643793a17:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/SetzerAuton.java
-            
         }
     }
 
