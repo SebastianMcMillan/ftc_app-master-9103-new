@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -47,7 +46,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import java.util.Locale;
 
 /**
- * {@link SensorBNO055IMU} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
+ * {@link SetzerAuton} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
@@ -55,7 +54,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
-public class SensorBNO055IMU extends LinearOpMode
+public class SetzerAuton extends LinearOpMode
     {
     //----------------------------------------------------------------------------------------------
     // State
@@ -103,7 +102,10 @@ public class SensorBNO055IMU extends LinearOpMode
         // Loop and update the dashboard
         while (opModeIsActive()) {
             telemetry.update();
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/SensorBNO055IMU.java
 
+=======
+>>>>>>> 86518b1a5f5c0e48a603f3fe20d8bad643793a17:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/SetzerAuton.java
             
         }
     }
