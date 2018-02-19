@@ -4,7 +4,12 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -34,11 +39,55 @@ public class SetzerAuton extends LinearOpMode
     // Main logic
     //----------------------------------------------------------------------------------------------
 
+        private ElapsedTime runtime = new ElapsedTime();
+
+        //Declare Motors
+        private DcMotor backLeft; //Port 0 Hub 1
+        private DcMotor backRight; //Port 1 Hub 1
+        private DcMotor frontLeft; //Port 2 Hub 1
+        private DcMotor frontRight; //Port 3 Hub 1
+
+        private DcMotor relicMotor1; //Port 1 Hub 2
+        private DcMotor relicMotor2; //Port 2 Hub 2
+        private DcMotor relicMotor3; //Port 3 Hub 2
+
+        private DcMotor glyphMotor; //Port 0 Hub 2
+
+        //Declare Servos
+        private Servo glyphLeft; //Port 0 Hub 1
+        private Servo glyphRight; //Port 1 Hub 1
+
+        private Servo jewelServo; //Port 2 Hub 1
+
+        //Declare REV Color-Distance Sensor
+        private SensorREVColorDistance colorSensor; //Port 1 Hub 1
+
     @Override public void runOpMode() {
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
+        //HW Map DC Motors
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
+
+        relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
+        relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
+        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3");
+
+        //HW Map Servos
+        glyphLeft = hardwareMap.servo.get("glyphLeft");
+        glyphRight = hardwareMap.servo.get("glyphRight");
+
+        jewelServo = hardwareMap.servo.get("jewelServo");
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
