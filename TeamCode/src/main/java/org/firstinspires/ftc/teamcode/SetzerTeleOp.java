@@ -185,6 +185,8 @@ public class SetzerTeleOp extends LinearOpMode {
                 relicMotor2.setPower(0);
             }
 
+            if
+
 
 
 
