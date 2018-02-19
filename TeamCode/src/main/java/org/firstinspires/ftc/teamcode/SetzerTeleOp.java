@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDistance;
+
 /**
  * Created by Sebastian McMillan on 2/6/18.
  */
@@ -27,10 +29,11 @@ public class SetzerTeleOp extends LinearOpMode {
     private Servo glyphLeft; //Port 0 Hub 1
     private Servo glyphRight; //Port 1 Hub 1
     private DcMotor glyphMotor; //Port 0 Hub 2
-    private Servo Jewel; //Port 2 Hub 1
-    private DcMotor relicMotor1; //Port 0 Hub 2
-    private DcMotor relicMotor2; //Port 1 Hub 2
-    private  DcMotor relicMotor3; //Port 2 Hub 2
+    private Servo jewelServo; //Port 2 Hub 1
+    private DcMotor relicMotor1; //Port 1 Hub 2
+    private DcMotor relicMotor2; //Port 2 Hub 2
+    private  DcMotor relicMotor3; //Port 3 Hub 2
+    private SensorREVColorDistance colorSensor; //Port 1 Hub 1
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,11 +50,12 @@ public class SetzerTeleOp extends LinearOpMode {
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
-        Jewel = hardwareMap.servo.get("Jewel");
+        jewelServo = hardwareMap.servo.get("jewelServo");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
         relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
-        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3")
+        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3");
+
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -67,8 +71,9 @@ public class SetzerTeleOp extends LinearOpMode {
             int position = glyphMotor.getCurrentPosition();
 
             telemetry.addData("Encoder Position", position);
+            telemetry.update();
 
-            Jewel.setPosition(0);
+            jewelServo.setPosition(1);
 
             if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0) /*If the left stick is not neutral...*/ {
                 double drive = -gamepad1.left_stick_y; //Set the Drive to the negative value of the y-axis value
@@ -90,7 +95,6 @@ public class SetzerTeleOp extends LinearOpMode {
                 frontRight.setPower(0);
                 backLeft.setPower(0);
                 backRight.setPower(0);
-
             }
             if (gamepad1.a){
 
@@ -115,7 +119,6 @@ public class SetzerTeleOp extends LinearOpMode {
             if (gamepad1.dpad_up && position < 5000){
 
                 glyphMotor.setPower(1);
-
             }
 
             if (gamepad1.dpad_down && position > 0){
@@ -124,22 +127,49 @@ public class SetzerTeleOp extends LinearOpMode {
             }
 
             if (!gamepad1.dpad_down && !gamepad1.dpad_up) {
+
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad2.dpad_right){
+            if (gamepad2.right_bumper){
 
                 relicMotor3.setPower(0.3);
             }
 
-            if (gamepad2.dpad_left){
+            if (gamepad2.left_bumper){
 
                 relicMotor3.setPower(-0.3);
             }
 
-            if (gamepad2.left_stick_y != 0) {
+            if (!gamepad2.right_bumper && !gamepad2.left_bumper) {
+
+                relicMotor3.setPower(0);
+            }
+
+            if (gamepad2.right_trigger != 0) {
+
+                relicMotor1.setPower(gamepad2.right_trigger / 1.5);
+            }
+
+            if (gamepad2.left_trigger !=0) {
+
+                relicMotor1.setPower(-gamepad2.left_trigger / 1.5);
+            }
+
+            if (gamepad2.right_trigger == 0 && gamepad2.left_trigger == 0) {
+
+                relicMotor1.setPower(0);
+            }
+
+            if (gamepad2.right_stick_y != 0) {
+
+                relicMotor2.setPower(gamepad2.right_stick_y);
+            }
 
 
+            if (gamepad2.right_stick_y == 0) {
+
+                relicMotor2.setPower(0);
             }
 
 
