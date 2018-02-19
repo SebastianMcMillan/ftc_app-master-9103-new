@@ -26,13 +26,20 @@ public class SetzerTeleOp extends LinearOpMode {
     private DcMotor backRight; //Port 1 Hub 1
     private DcMotor frontLeft; //Port 2 Hub 1
     private DcMotor frontRight; //Port 3 Hub 1
-    private Servo glyphLeft; //Port 0 Hub 1
-    private Servo glyphRight; //Port 1 Hub 1
-    private DcMotor glyphMotor; //Port 0 Hub 2
-    private Servo jewelServo; //Port 2 Hub 1
+
     private DcMotor relicMotor1; //Port 1 Hub 2
     private DcMotor relicMotor2; //Port 2 Hub 2
-    private  DcMotor relicMotor3; //Port 3 Hub 2
+    private DcMotor relicMotor3; //Port 3 Hub 2
+
+    private DcMotor glyphMotor; //Port 0 Hub 2
+
+    //Declare Servos
+    private Servo glyphLeft; //Port 0 Hub 1
+    private Servo glyphRight; //Port 1 Hub 1
+
+    private Servo jewelServo; //Port 2 Hub 1
+
+    //Declare REV Color-Distance Sensor
     private SensorREVColorDistance colorSensor; //Port 1 Hub 1
 
     @Override
@@ -40,25 +47,27 @@ public class SetzerTeleOp extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //HW Map DC Motors
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
-
-        glyphLeft = hardwareMap.servo.get("glyphLeft");
-        glyphRight = hardwareMap.servo.get("glyphRight");
+        
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
-
-        jewelServo = hardwareMap.servo.get("jewelServo");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
         relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
         relicMotor3 = hardwareMap.dcMotor.get("relicMotor3");
 
+        //HW Map Servos
+        glyphLeft = hardwareMap.servo.get("glyphLeft");
+        glyphRight = hardwareMap.servo.get("glyphRight");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        jewelServo = hardwareMap.servo.get("jewelServo");
+
 
         waitForStart();
         runtime.reset();
