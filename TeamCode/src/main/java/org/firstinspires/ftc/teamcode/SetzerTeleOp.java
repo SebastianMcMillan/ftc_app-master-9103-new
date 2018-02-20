@@ -39,8 +39,6 @@ public class SetzerTeleOp extends LinearOpMode {
 
     private Servo jewelServo; //Port 2 Hub 1
 
-    //Declare REV Color-Distance Sensor
-    private SensorREVColorDistance colorSensor; //Port 1 Hub 1
 
     @Override
     public void runOpMode() throws InterruptedException {
