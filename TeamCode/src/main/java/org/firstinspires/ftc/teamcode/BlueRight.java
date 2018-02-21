@@ -4,17 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,22 +11,23 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
@@ -53,7 +43,7 @@ import java.util.Locale;
  */
 @Autonomous(name = "Sensor: REVColorDistance", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
-public class BlueLeft extends LinearOpMode {
+public class BlueRight extends LinearOpMode {
 
     /**
      * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
@@ -329,17 +319,17 @@ public class BlueLeft extends LinearOpMode {
             }
             jewelServo.setPosition(1);
 
-            while (opModeIsActive() && robotAngle - 90 == robotAngle){
+            while (opModeIsActive() && robotAngle + 90 == robotAngle){
 
-                frontRight.setPower(-0.5);
-                frontLeft.setPower(0.5);
-                backRight.setPower(-0.5);
-                backLeft.setPower(0.5);
+                frontRight.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                backRight.setPower(0.5);
+                backLeft.setPower(-0.5);
             }
             robotAngle = angles.secondAngle;
 
             runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
                 frontLeft.setPower(0.5);
                 frontRight.setPower(0.5);
@@ -386,22 +376,14 @@ public class BlueLeft extends LinearOpMode {
                 vuforiaPosition = RIGHT;
             }
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
-
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
-            }
-            robotAngle = angles.secondAngle;
 
             runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < vuforiaPosition)) {
 
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                frontRight.setPower(-0.5);
+                backLeft.setPower(-0.5);
+                backRight.setPower(-0.5);
             }
             runtime.reset();
 
@@ -410,17 +392,17 @@ public class BlueLeft extends LinearOpMode {
             backLeft.setPower(0);
             backRight.setPower(0);
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+            while (opModeIsActive() && robotAngle - 90 == robotAngle){
 
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
+                frontRight.setPower(-0.5);
+                frontLeft.setPower(0.5);
+                backRight.setPower(-0.5);
+                backLeft.setPower(0.5);
             }
             robotAngle = angles.secondAngle;
 
             runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 4)) {
+            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
                 frontLeft.setPower(0.5);
                 frontRight.setPower(0.5);
