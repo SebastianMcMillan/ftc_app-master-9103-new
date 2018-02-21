@@ -63,7 +63,7 @@ public class SetzerTeleOp extends LinearOpMode {
         glyphRight = hardwareMap.servo.get("glyphRight");
 
         relicServo2 = hardwareMap.servo.get("relicServo2");
-        relicServo3 = hardwareMap.servo.get("relicMotor3");
+        relicServo3 = hardwareMap.servo.get("relicServo3");
 
         jewelServo = hardwareMap.servo.get("jewelServo");
 

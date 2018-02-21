@@ -41,7 +41,7 @@ import java.util.Locale;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Sensor: REVColorDistance", group = "Sensor")
+@Autonomous(name = "RedLeft", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class RedLeft extends LinearOpMode {
 
@@ -75,8 +75,8 @@ public class RedLeft extends LinearOpMode {
     private DcMotor frontRight; //Port 3 Hub 1
 
     private DcMotor relicMotor1; //Port 1 Hub 2
-    private DcMotor relicMotor2; //Port 2 Hub 2
-    private DcMotor relicMotor3; //Port 3 Hub 2
+    private DcMotor relicServo2; //Port 2 Hub 2
+    private DcMotor relicServo3; //Port 3 Hub 2
 
     private DcMotor glyphMotor; //Port 0 Hub 2
 
@@ -106,8 +106,8 @@ public class RedLeft extends LinearOpMode {
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
-        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3");
+        relicServo2 = hardwareMap.dcMotor.get("relicServo2");
+        relicServo3 = hardwareMap.dcMotor.get("relicServo3");
 
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
