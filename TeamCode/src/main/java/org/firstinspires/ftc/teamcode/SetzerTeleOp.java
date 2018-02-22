@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,8 +29,8 @@ public class SetzerTeleOp extends LinearOpMode {
     private DcMotor frontRight; //Port 3 Hub 1
 
     private DcMotor relicMotor1; //Port 1 Hub 2
-    private DcMotor relicMotor2; //Port 2 Hub 2
-    private DcMotor relicMotor3; //Port 3 Hub 2
+    private Servo relicServo2; //Port 2 Hub 2
+    private CRServo relicServo3; //Port 3 Hub 2
 
     private DcMotor glyphMotor; //Port 0 Hub 2
 
@@ -39,8 +40,6 @@ public class SetzerTeleOp extends LinearOpMode {
 
     private Servo jewelServo; //Port 2 Hub 1
 
-    //Declare REV Color-Distance Sensor
-    private SensorREVColorDistance colorSensor; //Port 1 Hub 1
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -59,14 +58,18 @@ public class SetzerTeleOp extends LinearOpMode {
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicMotor2 = hardwareMap.dcMotor.get("relicMotor2");
-        relicMotor3 = hardwareMap.dcMotor.get("relicMotor3");
 
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
         glyphRight = hardwareMap.servo.get("glyphRight");
 
+        relicServo2 = hardwareMap.servo.get("relicServo2");
+        relicServo3 = hardwareMap.crservo.get("relicServo3");
+
         jewelServo = hardwareMap.servo.get("jewelServo");
+
+        relicMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        relicMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         waitForStart();
@@ -79,11 +82,14 @@ public class SetzerTeleOp extends LinearOpMode {
 
             int positionGlyphMotor = glyphMotor.getCurrentPosition();
             int positionRelicMotor1 = relicMotor1.getCurrentPosition();
-            int positionRelicMotor2 = relicMotor2.getCurrentPosition();
+            double positionrelicServo2 = relicServo2.getPosition();
+            int positionrelicServoArm = 0;
+
 
             telemetry.addData("Encoder glyphMotor Position", positionGlyphMotor);
             telemetry.addData("Encoder relicMotor1", positionRelicMotor1);
-            telemetry.addData("Encoder relicMotor2 Position", positionRelicMotor2);
+            telemetry.addData("Position of relicServo2 :", positionrelicServo2);
+
             telemetry.update();
 
             jewelServo.setPosition(1);
@@ -144,19 +150,19 @@ public class SetzerTeleOp extends LinearOpMode {
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad2.right_bumper){
+            if (!gamepad2.dpad_left && !gamepad2.dpad_right){
 
-                relicMotor3.setPower(0.3);
+                relicServo3.setPower(0);
             }
 
-            if (gamepad2.left_bumper){
+            if (gamepad2.dpad_left){
 
-                relicMotor3.setPower(-0.3);
+                relicServo3.setPower(-1);
             }
 
-            if (!gamepad2.right_bumper && !gamepad2.left_bumper) {
+            if (gamepad2.dpad_right) {
 
-                relicMotor3.setPower(0);
+                relicServo3.setPower(1);
             }
 
             if (gamepad2.right_trigger != 0) {
@@ -174,15 +180,26 @@ public class SetzerTeleOp extends LinearOpMode {
                 relicMotor1.setPower(0);
             }
 
-            if (gamepad2.right_stick_y != 0) {
+            if (gamepad2.right_stick_y == 0) {
 
-                relicMotor2.setPower(gamepad2.right_stick_y);
+                relicServo2.setPosition(positionrelicServoArm + gamepad2.right_stick_y);
             }
 
 
-            if (gamepad2.right_stick_y == 0) {
+            if (gamepad2.a) {
 
-                relicMotor2.setPower(0);
+                relicServo2.setPosition(1);
+                relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                relicMotor1.setTargetPosition(188);
+                relicMotor1.setPower(0.5);
+            }
+
+            if (gamepad2.b) {
+
+                relicServo2.setPosition(0);
+                relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                relicMotor1.setTargetPosition(18);
+                relicMotor1.setPower(-0.5);
             }
 
 
