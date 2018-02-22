@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -60,10 +61,10 @@ public class SetzerAuton extends LinearOpMode
         private Servo jewelServo; //Port 2 Hub 1
 
         //Declare REV Color-Distance Sensor
-        private SensorREVColorDistance colorSensor; //Port 1 Hub 1
+        private ColorSensor colorSensor; //Port 1 Hub 1
 
     @Override public void runOpMode() {
-
+        
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
@@ -87,6 +88,8 @@ public class SetzerAuton extends LinearOpMode
         glyphRight = hardwareMap.servo.get("glyphRight");
 
         jewelServo = hardwareMap.servo.get("jewelServo");
+
+        colorSensor = hardwareMap.colorSensor.get("colorSensor");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
