@@ -182,7 +182,6 @@ public class BlueLeft extends LinearOpMode {
         final ElapsedTime runtime = new ElapsedTime();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         double runtimeme2;
-        double runtimeme = getRuntime();
         double completed = 0;
         double FRpower = 0;
         double FLpower = 0;
@@ -247,7 +246,7 @@ public class BlueLeft extends LinearOpMode {
 
 
 
-                runtimeme2=30 - getRuntime()-runtimeme;
+                runtimeme2=30 - getRuntime();
                 // convert the RGB values to HSV values.
                 // multiply by the SCALE_FACTOR.
                 // then cast it back to int (SCALE_FACTOR is a double)
@@ -264,10 +263,16 @@ public class BlueLeft extends LinearOpMode {
                 BRpower = -0.3;
             }
 
-            if (runtimeme2 < 1) {
+            if (runtimeme2 >= 1 && runtimeme2 < 4) {
 
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
                 A_ServoValue = 0;
             }
+
+            if ()
 
             /*if (runtimeme2< 20) {
 
