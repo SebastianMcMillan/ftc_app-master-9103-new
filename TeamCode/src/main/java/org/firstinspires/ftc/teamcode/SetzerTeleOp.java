@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -29,7 +30,7 @@ public class SetzerTeleOp extends LinearOpMode {
 
     private DcMotor relicMotor1; //Port 1 Hub 2
     private Servo relicServo2; //Port 2 Hub 2
-    private Servo relicServo3; //Port 3 Hub 2
+    private CRServo relicServo3; //Port 3 Hub 2
 
     private DcMotor glyphMotor; //Port 0 Hub 2
 
@@ -63,7 +64,7 @@ public class SetzerTeleOp extends LinearOpMode {
         glyphRight = hardwareMap.servo.get("glyphRight");
 
         relicServo2 = hardwareMap.servo.get("relicServo2");
-        relicServo3 = hardwareMap.servo.get("relicServo3");
+        relicServo3 = hardwareMap.crservo.get("relicServo3");
 
         jewelServo = hardwareMap.servo.get("jewelServo");
 
@@ -81,9 +82,14 @@ public class SetzerTeleOp extends LinearOpMode {
 
             int positionGlyphMotor = glyphMotor.getCurrentPosition();
             int positionRelicMotor1 = relicMotor1.getCurrentPosition();
+            double positionrelicServo2 = relicServo2.getPosition();
+            int positionrelicServoArm = 0;
+
 
             telemetry.addData("Encoder glyphMotor Position", positionGlyphMotor);
             telemetry.addData("Encoder relicMotor1", positionRelicMotor1);
+            telemetry.addData("Position of relicServo2 :", positionrelicServo2);
+
             telemetry.update();
 
             jewelServo.setPosition(1);
@@ -146,17 +152,17 @@ public class SetzerTeleOp extends LinearOpMode {
 
             if (!gamepad2.dpad_left && !gamepad2.dpad_right){
 
-                relicServo3.setPosition(0.5);
+                relicServo3.setPower(0);
             }
 
             if (gamepad2.dpad_left){
 
-                relicServo3.setPosition(0);
+                relicServo3.setPower(-1);
             }
 
             if (gamepad2.dpad_right) {
 
-                relicServo3.setPosition(1);
+                relicServo3.setPower(1);
             }
 
             if (gamepad2.right_trigger != 0) {
@@ -174,31 +180,26 @@ public class SetzerTeleOp extends LinearOpMode {
                 relicMotor1.setPower(0);
             }
 
-            if (gamepad2.right_stick_y != 0) {
-
-                relicServo2.setPosition(gamepad2.right_stick_y);
-            }
-
-
             if (gamepad2.right_stick_y == 0) {
 
-                relicServo2.setPosition(0.5);
+                relicServo2.setPosition(positionrelicServoArm + gamepad2.right_stick_y);
             }
+
 
             if (gamepad2.a) {
 
-                relicServo2.setPosition(0.5);
+                relicServo2.setPosition(1);
                 relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                relicMotor1.setTargetPosition(500);
-                relicMotor1.setPower(-0.5);
+                relicMotor1.setTargetPosition(188);
+                relicMotor1.setPower(0.5);
             }
 
             if (gamepad2.b) {
 
-                relicServo2.setPosition(-0.5);
+                relicServo2.setPosition(0);
                 relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                relicMotor1.setTargetPosition(-500);
-                relicMotor1.setPower(0.5);
+                relicMotor1.setTargetPosition(18);
+                relicMotor1.setPower(-0.5);
             }
 
 

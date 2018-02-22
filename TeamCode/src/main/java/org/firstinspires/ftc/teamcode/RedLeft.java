@@ -8,6 +8,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -67,7 +68,6 @@ public class RedLeft extends LinearOpMode {
     Acceleration gravity;
 
     ColorSensor sensorColor;
-    DistanceSensor sensorDistance;
 
     private DcMotor backLeft; //Port 0 Hub 1
     private DcMotor backRight; //Port 1 Hub 1
@@ -75,8 +75,8 @@ public class RedLeft extends LinearOpMode {
     private DcMotor frontRight; //Port 3 Hub 1
 
     private DcMotor relicMotor1; //Port 1 Hub 2
-    private DcMotor relicServo2; //Port 2 Hub 2
-    private DcMotor relicServo3; //Port 3 Hub 2
+    private Servo relicServo2; //Port 2 Hub 2
+    private CRServo relicServo3; //Port 3 Hub 2
 
     private DcMotor glyphMotor; //Port 0 Hub 2
 
@@ -106,8 +106,8 @@ public class RedLeft extends LinearOpMode {
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicServo2 = hardwareMap.dcMotor.get("relicServo2");
-        relicServo3 = hardwareMap.dcMotor.get("relicServo3");
+        relicServo2 = hardwareMap.servo.get("relicServo2");
+        relicServo3 = hardwareMap.crservo.get("relicServo3");
 
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
@@ -136,7 +136,6 @@ public class RedLeft extends LinearOpMode {
         sensorColor = hardwareMap.get(ColorSensor.class, "colorSensor");
 
         // get a reference to the distance sensor that shares the same name.
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "colorDistance");
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -168,8 +167,11 @@ public class RedLeft extends LinearOpMode {
         int CENTER = 15;
 
 
-        float robotAngle = angles.secondAngle;
+        double robotAngle = angles.secondAngle;
         ElapsedTime runtime = new ElapsedTime();
+
+        composeTelemetry();
+        telemetry.update();
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -191,8 +193,6 @@ public class RedLeft extends LinearOpMode {
                     hsvValues);
 
             // send the info back to driver station using telemetry function.
-            telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
             telemetry.addData("Alpha", sensorColor.alpha());
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());

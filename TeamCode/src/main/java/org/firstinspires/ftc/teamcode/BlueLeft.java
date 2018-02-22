@@ -7,6 +7,7 @@ import android.view.View;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
@@ -41,6 +42,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
+
+import static com.sun.tools.javac.util.Constants.format;
 
 /*
  * This is an example LinearOpMode that shows how to use
@@ -77,7 +80,6 @@ public class BlueLeft extends LinearOpMode {
     Acceleration gravity;
 
     ColorSensor sensorColor;
-    DistanceSensor sensorDistance;
 
     private DcMotor backLeft; //Port 0 Hub 1
     private DcMotor backRight; //Port 1 Hub 1
@@ -85,8 +87,8 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor frontRight; //Port 3 Hub 1
 
     private DcMotor relicMotor1; //Port 1 Hub 2
-    private DcMotor relicServo2; //Port 2 Hub 2
-    private DcMotor relicServo3; //Port 3 Hub 2
+    private Servo relicServo2; //Port 2 Hub 2
+    private CRServo relicServo3; //Port 3 Hub 2
 
     private DcMotor glyphMotor; //Port 0 Hub 2
 
@@ -116,8 +118,8 @@ public class BlueLeft extends LinearOpMode {
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
         relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicServo2 = hardwareMap.dcMotor.get("relicServo2");
-        relicServo3 = hardwareMap.dcMotor.get("relicServo3");
+        relicServo2 = hardwareMap.servo.get("relicServo2");
+        relicServo3 = hardwareMap.crservo.get("relicServo3");
 
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
@@ -145,8 +147,6 @@ public class BlueLeft extends LinearOpMode {
         // get a reference to the color sensor.
         sensorColor = hardwareMap.get(ColorSensor.class, "colorSensor");
 
-        // get a reference to the distance sensor that shares the same name.
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "colorDistance");
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -177,9 +177,27 @@ public class BlueLeft extends LinearOpMode {
         int RIGHT = 10;
         int CENTER = 15;
 
+        angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        float robotAngle = angles.secondAngle;
-        ElapsedTime runtime = new ElapsedTime();
+        final ElapsedTime runtime = new ElapsedTime();
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        double runtimeme2;
+        double runtimeme = getRuntime();
+        double completed = 0;
+        double FRpower = 0;
+        double FLpower = 0;
+        double BLpower = 0;
+        double BRpower = 0;
+        boolean red = false;
+        boolean blue = false;
+        boolean neither = true;
+        double A_ServoValue = 1;
+        double LIMpower = 0;
+        double RIMpower = 0;
+
+
+        composeTelemetry();
+        telemetry.update();
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -201,8 +219,6 @@ public class BlueLeft extends LinearOpMode {
                     hsvValues);
 
             // send the info back to driver station using telemetry function.
-            telemetry.addData("Distance (cm)",
-                    String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
             telemetry.addData("Alpha", sensorColor.alpha());
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());
@@ -219,22 +235,327 @@ public class BlueLeft extends LinearOpMode {
             });
 
             telemetry.update();
+            angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+            telemetry.update();
 
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
+            waitForStart();
+
+
+            // Loop and update the dashboard
+
+
+
+
+                runtimeme2=30 - getRuntime()-runtimeme;
+                // convert the RGB values to HSV values.
+                // multiply by the SCALE_FACTOR.
+                // then cast it back to int (SCALE_FACTOR is a double)
+                Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
+                        (int) (this.sensorColor.green() * SCALE_FACTOR),
+                        (int) (this.sensorColor.blue() * SCALE_FACTOR),
+                        hsvValues);
+
+            if (runtimeme2 < 1) {
+
+                FRpower = -0.3;
+                FLpower = -0.3;
+                BLpower = -0.3;
+                BRpower = -0.3;
             }
-            robotAngle = angles.secondAngle;
 
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
+            if (runtimeme2 < 1) {
 
-            runtime.reset();
+                A_ServoValue = 0;
+            }
+
+            /*if (runtimeme2< 20) {
+
+                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                        telemetry.addData("VuMark", "is NOT visible");
+                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                        if (vuMark == RelicRecoveryVuMark.LEFT) {
+
+                            telemetry.addData("VuMark", "is Left", vuMark);
+                            vuforiaPosition = LEFT;
+                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                            telemetry.addData("VuMark", "is Center", vuMark);
+                            vuforiaPosition = CENTER;
+                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                            telemetry.addData("VuMark", "is Right", vuMark);
+                            vuforiaPosition = RIGHT;
+                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                            telemetry.addData("VuMark", "is NOT visible", vuMark);
+                        }
+                    }
+            }
+
+
+            if (runtimeme2 < 4){
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                }
+            else if (runtimeme2>4 && runtimeme2<7){
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                    jewelServo.setPosition(0);
+                    if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
+                        telemetry.addLine("This is red");
+                        red = true;
+
+                    }
+
+                    else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
+                        telemetry.addLine("This is blue");
+                        blue = true;
+                    }
+
+                    else{
+                        telemetry.addLine("What am I doing with my life?");
+                        neither = true;
+                    }
+                }
+
+                if (runtimeme2 > 7 &&  runtimeme2 <7.4)
+
+                {
+                    if (red == blue){
+                        FRpower = 0;
+                        FLpower = 0;
+                        BLpower = 0;
+                        BRpower = 0;
+                        neither = true;
+                    }
+                    else {
+                        neither = false;
+                    }
+                }
+
+                else if (runtimeme2 > 7.4 &&  runtimeme2 <=7.7) {
+                    if (blue==true){
+
+                        FRpower = -0.3;
+                        FLpower = 0.3;
+                        BLpower = -0.3;
+                        BRpower = 0.3;
+                    }
+                    else if (red==true){
+                        FRpower = 0.3;
+                        FLpower = -0.3;
+                        BLpower = 0.3;
+                        BRpower = -0.3;
+
+                    }
+
+                    else{
+                        FRpower = 0;
+                        FLpower = 0;
+                        BLpower = 0;
+                        BRpower = 0;
+                    }}
+
+
+                else if (runtimeme2 > 7.8 &&  runtimeme2 <=8.2){
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                    A_ServoValue = 1;
+
+                }
+                else if (runtimeme2 > 8.2 &&  runtimeme2 <=8.5) {
+
+
+                    if (blue==true){
+
+                        FRpower = 0.3;
+                        FLpower = -0.3;
+                        BLpower = 0.3;
+                        BRpower = -0.3;
+
+                    }
+                    else if (red==true){
+
+                        FRpower = -0.3;
+                        FLpower = 0.3;
+                        BLpower = -0.3;
+                        BRpower = 0.3;
+
+                    }}
+                else if (runtimeme2 > 8.55 &&  runtimeme2 <=12.3){
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                }
+                else if (runtimeme2 > 12.3 && runtimeme2 <= 18) {
+
+                    if (runtimeme2 > 12.3 && runtimeme2 <= 12.3 + .3) {
+                        FRpower = .3;
+                        FLpower = .3;
+                        BLpower = .3;
+                        BRpower =.3;
+
+                    }
+
+                    else{
+                        FRpower = 0;
+                        FLpower = 0;
+                        BLpower = 0;
+                        BRpower = 0;
+
+                    }}
+                else if (runtimeme2 > 18&& runtimeme2 <= 23){
+                    if (angles.firstAngle>=-83){
+                        FRpower = -.3;
+                        FLpower = .3;
+                        BLpower = -.3;
+                        BRpower = .3;
+                    }
+                    else{
+                        FRpower = 0;
+                        FLpower = 0;
+                        BLpower = 0;
+                        BRpower = 0;
+                    }
+                }
+                else if (runtimeme2 > 23 && runtimeme2 <= 24){
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                }
+                else if (runtimeme2 > 24 && runtimeme2 <= 25.5){
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+
+
+                }
+
+                else if (runtimeme2 > 25.5&& runtimeme2 <=27.2 ){
+                    FRpower = -.3;
+                    FLpower = -.3;
+                    BLpower = -.3;
+                    BRpower =-.5;
+                }
+                else if (runtimeme2 > 27.2&& runtimeme2 <=27.6 ){
+                    FRpower = .3;
+                    FLpower = .3;
+                    BLpower = .3;
+                    BRpower = .3;
+                }
+                else if (runtimeme2 > 27.6 && runtimeme2 <=28.5 ){
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+
+                }
+                else{
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+
+                }
+
+
+
+
+
+
+
+                if (runtimeme2 < 3) {
+                    A_ServoValue = .1;
+
+                } else if (runtimeme2 > 3 && runtimeme2 < 8) {
+                    A_ServoValue = .6;
+                } else if (runtimeme2 > 8&& runtimeme2 < 25) {
+                    A_ServoValue = .1;
+                }
+                else{
+                    A_ServoValue = .1;
+                }*/
+
+
+
+                //motors
+                frontLeft.setPower(FLpower);
+                frontRight.setPower(FRpower);
+                backLeft.setPower(BLpower);
+                backRight.setPower(BRpower);
+                //servos
+                jewelServo.setPosition(A_ServoValue);
+                glyphLeft.setPosition(LIMpower);
+                glyphRight.setPosition(RIMpower);
+
+
+            }
+        /*relativeLayout.post(new Runnable() {
+            public void run() {
+                relativeLayout.setBackgroundColor(Color.WHITE);
+            }
+        });*/
+
+
+            /*while (Math.abs(robotAngle - target) > 3 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
+                if (robotAngle > target) {  //if gyro is positive, we will turn right
+
+                    telemetry.update();
+                    frontRight.setPower(-0.25);
+                    frontLeft.setPower(0.25);
+                    backRight.setPower(-0.25);
+                    backLeft.setPower(0.25);
+                }
+
+                if (robotAngle < target) {  //if gyro is positive, we will turn left
+
+                    telemetry.update();
+                    frontRight.setPower(0.25);
+                    frontLeft.setPower(-0.25);
+                    backRight.setPower(0.25);
+                    backLeft.setPower(-0.25);
+                }
+
+                angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);  //Set variables to gyro readings
+                robotAngle = angles.firstAngle;
+                telemetry.update();
+            }*/
+
+            /*angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            telemetry.update();
+            if (angles.firstAngle>=-84){
+                telemetry.update();
+                frontRight.setPower(-0.25);
+                frontLeft.setPower(0.25);
+                backRight.setPower(-0.25);
+                backLeft.setPower(0.25);
+            }
+            else{
+                telemetry.update();
+                frontRight.setPower(0);
+                frontLeft.setPower(0);
+                backRight.setPower(0);
+                backLeft.setPower(0);
+            }
+*/
+
+
+            /*runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < 1.0)) {
 
                 frontLeft.setPower(0.5);
@@ -249,7 +570,7 @@ public class BlueLeft extends LinearOpMode {
             backLeft.setPower(0);
             backRight.setPower(0);
 
-            while (opModeIsActive() && robotAngle - 90 == robotAngle){
+            *//*hile (opModeIsActive() && angles.firstAngle != -90){
 
                 frontRight.setPower(-0.5);
                 frontLeft.setPower(0.5);
@@ -257,7 +578,7 @@ public class BlueLeft extends LinearOpMode {
                 backLeft.setPower(0.5);
             }
             robotAngle = angles.secondAngle;
-
+*//*
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
@@ -357,9 +678,6 @@ public class BlueLeft extends LinearOpMode {
 
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
-                /* Found an instance of the template. In the actual game, you will probably
-                 * loop until this condition occurs, then move on to act accordingly depending
-                 * on which VuMark was visible. */
                 telemetry.addData("VuMark", "is visible", vuMark);
             }
 
@@ -408,18 +726,18 @@ public class BlueLeft extends LinearOpMode {
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
-            backRight.setPower(0);
+            backRight.setPower(0);*/
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+            /*while (opModeIsActive() && robotAngle + 90 == robotAngle){
 
                 frontRight.setPower(0.5);
                 frontLeft.setPower(-0.5);
                 backRight.setPower(0.5);
                 backLeft.setPower(-0.5);
             }
-            robotAngle = angles.secondAngle;
+            robotAngle = angles.secondAngle;*/
 
-            runtime.reset();
+           /* runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < 4)) {
 
                 frontLeft.setPower(0.5);
@@ -436,18 +754,23 @@ public class BlueLeft extends LinearOpMode {
 
             glyphLeft.setPosition(0.7); // 0.7 is the open position for glyph servo Left
             glyphRight.setPosition(0.3); // 0.3 is the open position for glyph servo Right
+*/
+
+            /*runtime.reset();
+            while (opModeIsActive() && runtime.seconds() < 30){
+
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+            backLeft.setPower(0);
+            backRight.setPower(0);}*/
 
         }
 
         // Set the panel back to the default color
-        relativeLayout.post(new Runnable() {
-            public void run() {
-                relativeLayout.setBackgroundColor(Color.WHITE);
-            }
-        });
 
 
-    }
+
+
 
     //----------------------------------------------------------------------------------------------
     // Telemetry Configuration
