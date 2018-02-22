@@ -28,10 +28,6 @@ public class SetzerTeleOp extends LinearOpMode {
     private DcMotor frontLeft; //Port 2 Hub 1
     private DcMotor frontRight; //Port 3 Hub 1
 
-    private DcMotor relicMotor1; //Port 1 Hub 2
-    private Servo relicServo2; //Port 2 Hub 2
-    private CRServo relicServo3; //Port 3 Hub 2
-
     private DcMotor glyphMotor; //Port 0 Hub 2
 
     //Declare Servos
@@ -57,19 +53,11 @@ public class SetzerTeleOp extends LinearOpMode {
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
-        relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
         glyphRight = hardwareMap.servo.get("glyphRight");
 
-        relicServo2 = hardwareMap.servo.get("relicServo2");
-        relicServo3 = hardwareMap.crservo.get("relicServo3");
-
         jewelServo = hardwareMap.servo.get("jewelServo");
-
-        relicMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        relicMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         waitForStart();
@@ -81,15 +69,9 @@ public class SetzerTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
 
             int positionGlyphMotor = glyphMotor.getCurrentPosition();
-            int positionRelicMotor1 = relicMotor1.getCurrentPosition();
-            double positionrelicServo2 = relicServo2.getPosition();
-            int positionrelicServoArm = 0;
 
 
             telemetry.addData("Encoder glyphMotor Position", positionGlyphMotor);
-            telemetry.addData("Encoder relicMotor1", positionRelicMotor1);
-            telemetry.addData("Position of relicServo2 :", positionrelicServo2);
-
             telemetry.update();
 
             jewelServo.setPosition(1);

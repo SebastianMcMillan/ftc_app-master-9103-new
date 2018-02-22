@@ -60,10 +60,6 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor frontLeft; //Port 2 Hub 1
     private DcMotor frontRight; //Port 3 Hub 1
 
-    private DcMotor relicMotor1; //Port 1 Hub 2
-    private Servo relicServo2; //Port 2 Hub 2
-    private CRServo relicServo3; //Port 3 Hub 2
-
     private DcMotor glyphMotor; //Port 0 Hub 2
 
     //Declare Servos
@@ -90,10 +86,6 @@ public class BlueLeft extends LinearOpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
-
-        relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicServo2 = hardwareMap.servo.get("relicServo2");
-        relicServo3 = hardwareMap.crservo.get("relicServo3");
 
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
