@@ -221,7 +221,7 @@ public class BlueLeft extends LinearOpMode {
 
 
 
-                runtimeme2=30 - getRuntime()-runtimeme;
+                runtimeme2=30 - getRuntime();
                 // convert the RGB values to HSV values.
                 // multiply by the SCALE_FACTOR.
                 // then cast it back to int (SCALE_FACTOR is a double)

@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.view.View;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -91,6 +94,26 @@ public class SetzerAuton extends LinearOpMode
 
         colorSensor = hardwareMap.colorSensor.get("colorSensor");
 
+        // hsvValues is an array that will hold the hue, saturation, and value information.
+        float hsvValues[] = {0F, 0F, 0F};
+
+        // values is a reference to the hsvValues array.
+        final float values[] = hsvValues;
+
+        // sometimes it helps to multiply the raw RGB values with a scale factor
+        // to amplify/attentuate the measured values.
+        final double SCALE_FACTOR = 255;
+
+        // get a reference to the RelativeLayout so we can change the background
+        // color of the Robot Controller app to match the hue detected by the RGB sensor.
+        int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
+        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+
+
+        boolean red = false;
+        boolean blue = false;
+        boolean neither = true;
+        
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -116,6 +139,21 @@ public class SetzerAuton extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
+            if (hsvValues[0] < 35 && colorSensor.red() > colorSensor.blue()){
+                telemetry.addLine("This is red");
+                red = true;
+
+            }
+
+            else if (hsvValues[0] >= 35 && colorSensor.red() <colorSensor.blue()){
+                telemetry.addLine("This is blue");
+                blue = true;
+            }
+
+            else{
+                telemetry.addLine("What am I doing with my life?");
+                neither = true;
+            }
             telemetry.update();
         }
     }
