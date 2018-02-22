@@ -173,7 +173,6 @@ public class BlueLeft extends LinearOpMode {
         telemetry.update();
 
         // wait for the start button to be pressed.
-        waitForStart();
 
         glyphLeft.setPosition(0.9);
         glyphRight.setPosition(0.1);
@@ -246,7 +245,6 @@ public class BlueLeft extends LinearOpMode {
                 A_ServoValue = 0;
             }
 
-            if ()
 
             /*if (runtimeme2< 20) {
 

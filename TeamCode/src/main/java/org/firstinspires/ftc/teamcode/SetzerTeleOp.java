@@ -150,62 +150,6 @@ public class SetzerTeleOp extends LinearOpMode {
                 glyphMotor.setPower(0);
             }
 
-            if (!gamepad2.dpad_left && !gamepad2.dpad_right){
-
-                relicServo3.setPower(0);
-            }
-
-            if (gamepad2.dpad_left){
-
-                relicServo3.setPower(-1);
-            }
-
-            if (gamepad2.dpad_right) {
-
-                relicServo3.setPower(1);
-            }
-
-            if (gamepad2.right_trigger != 0) {
-
-                relicMotor1.setPower(gamepad2.right_trigger / 1.5);
-            }
-
-            if (gamepad2.left_trigger !=0) {
-
-                relicMotor1.setPower(-gamepad2.left_trigger / 1.5);
-            }
-
-            if (gamepad2.right_trigger == 0 && gamepad2.left_trigger == 0) {
-
-                relicMotor1.setPower(0);
-            }
-
-            if (gamepad2.right_stick_y == 0) {
-
-                relicServo2.setPosition(positionrelicServoArm + gamepad2.right_stick_y);
-            }
-
-
-            if (gamepad2.a) {
-
-                relicServo2.setPosition(1);
-                relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                relicMotor1.setTargetPosition(188);
-                relicMotor1.setPower(0.5);
-            }
-
-            if (gamepad2.b) {
-
-                relicServo2.setPosition(0);
-                relicMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                relicMotor1.setTargetPosition(18);
-                relicMotor1.setPower(-0.5);
-            }
-
-
-
-
-
 
         }
     }
