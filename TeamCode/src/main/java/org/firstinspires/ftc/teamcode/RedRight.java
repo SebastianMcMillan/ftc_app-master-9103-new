@@ -33,9 +33,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
-@Autonomous(name = "BlueRight", group = "Sensor")
-
-public class BlueRight extends LinearOpMode {
+@Autonomous(name = "RedRight", group = "Sensor")
+public class RedRight extends LinearOpMode {
 
     BNO055IMU imu;
     Orientation angles;
@@ -184,12 +183,12 @@ public class BlueRight extends LinearOpMode {
 
             telemetry.update();
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+            while (opModeIsActive() && robotAngle - 90 == robotAngle){
 
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
+                frontRight.setPower(-0.5);
+                frontLeft.setPower(0.5);
+                backRight.setPower(-0.5);
+                backLeft.setPower(0.5);
             }
             robotAngle = angles.secondAngle;
 
@@ -213,12 +212,12 @@ public class BlueRight extends LinearOpMode {
             backLeft.setPower(0);
             backRight.setPower(0);
 
-            while (opModeIsActive() && robotAngle - 90 == robotAngle){
+            while (opModeIsActive() && robotAngle + 90 == robotAngle){
 
-                frontRight.setPower(-0.5);
-                frontLeft.setPower(0.5);
-                backRight.setPower(-0.5);
-                backLeft.setPower(0.5);
+                frontRight.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                backRight.setPower(0.5);
+                backLeft.setPower(-0.5);
             }
             robotAngle = angles.secondAngle;
 
@@ -248,19 +247,19 @@ public class BlueRight extends LinearOpMode {
                 runtime.reset();
                 while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
-                    frontLeft.setPower(0.5);
-                    frontRight.setPower(-0.5);
-                    backLeft.setPower(0.5);
-                    backRight.setPower(-0.5);
+                    frontLeft.setPower(-0.5);
+                    frontRight.setPower(0.5);
+                    backLeft.setPower(-0.5);
+                    backRight.setPower(0.5);
                 }
                 runtime.reset();
 
                 while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
-                    frontLeft.setPower(-0.5);
-                    frontRight.setPower(0.5);
-                    backLeft.setPower(-0.5);
-                    backRight.setPower(0.5);
+                    frontLeft.setPower(0.5);
+                    frontRight.setPower(-0.5);
+                    backLeft.setPower(0.5);
+                    backRight.setPower(-0.5);
                 }
                 runtime.reset();
             }
@@ -271,19 +270,19 @@ public class BlueRight extends LinearOpMode {
                 runtime.reset();
                 while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
-                    frontLeft.setPower(-0.5);
-                    frontRight.setPower(0.5);
-                    backLeft.setPower(-0.5);
-                    backRight.setPower(0.5);
+                    frontLeft.setPower(0.5);
+                    frontRight.setPower(-0.5);
+                    backLeft.setPower(0.5);
+                    backRight.setPower(-0.5);
                 }
                 runtime.reset();
 
                 while (opModeIsActive() && (runtime.seconds() < 0.5)) {
 
-                    frontLeft.setPower(0.5);
-                    frontRight.setPower(-0.5);
-                    backLeft.setPower(0.5);
-                    backRight.setPower(-0.5);
+                    frontLeft.setPower(-0.5);
+                    frontRight.setPower(0.5);
+                    backLeft.setPower(-0.5);
+                    backRight.setPower(0.5);
                 }
                 runtime.reset();
             }
@@ -293,17 +292,17 @@ public class BlueRight extends LinearOpMode {
             }
             jewelServo.setPosition(1);
 
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+            while (opModeIsActive() && robotAngle - 90 == robotAngle){
 
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
+                frontRight.setPower(-0.5);
+                frontLeft.setPower(0.5);
+                backRight.setPower(-0.5);
+                backLeft.setPower(0.5);
             }
             robotAngle = angles.secondAngle;
 
             runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
 
                 frontLeft.setPower(0.5);
                 frontRight.setPower(0.5);
@@ -350,14 +349,22 @@ public class BlueRight extends LinearOpMode {
                 vuforiaPosition = RIGHT;
             }
 
+            while (opModeIsActive() && robotAngle + 90 == robotAngle){
+
+                frontRight.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                backRight.setPower(0.5);
+                backLeft.setPower(-0.5);
+            }
+            robotAngle = angles.secondAngle;
 
             runtime.reset();
             while (opModeIsActive() && (runtime.seconds() < vuforiaPosition)) {
 
-                frontLeft.setPower(-0.5);
-                frontRight.setPower(-0.5);
-                backLeft.setPower(-0.5);
-                backRight.setPower(-0.5);
+                frontLeft.setPower(0.5);
+                frontRight.setPower(0.5);
+                backLeft.setPower(0.5);
+                backRight.setPower(0.5);
             }
             runtime.reset();
 
@@ -376,7 +383,7 @@ public class BlueRight extends LinearOpMode {
             robotAngle = angles.secondAngle;
 
             runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            while (opModeIsActive() && (runtime.seconds() < 4)) {
 
                 frontLeft.setPower(0.5);
                 frontRight.setPower(0.5);
