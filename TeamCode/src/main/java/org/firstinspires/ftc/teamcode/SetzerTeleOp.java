@@ -36,6 +36,9 @@ public class SetzerTeleOp extends LinearOpMode {
 
     private Servo jewelServo; //Port 2 Hub 1
 
+    private Servo topGlyphLeft;
+    private Servo topGlyphRight;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -59,12 +62,17 @@ public class SetzerTeleOp extends LinearOpMode {
 
         jewelServo = hardwareMap.servo.get("jewelServo");
 
+        topGlyphLeft = hardwareMap.servo.get("topGlyphLeft");
+        topGlyphRight = hardwareMap.servo.get("topGlyphRight");
+
 
         waitForStart();
         runtime.reset();
 
-        glyphLeft.setPosition(0.7); // 0.7 is the open position for glyph servo Left
-        glyphRight.setPosition(0.3); // 0.3 is the open position for glyph servo Right
+        glyphLeft.setPosition(0); // 0.7 is the open position for glyph servo Left
+        glyphRight.setPosition(1); // 0.3 is the open position for glyph servo Right
+        topGlyphRight.setPosition(0);
+        topGlyphLeft.setPosition(1);
 
         while (opModeIsActive()) {
 
@@ -99,13 +107,17 @@ public class SetzerTeleOp extends LinearOpMode {
             }
             if (gamepad1.a){
 
-                glyphLeft.setPosition(0.9);
-                glyphRight.setPosition(0.1);
+                glyphLeft.setPosition(0.4);
+                glyphRight.setPosition(0.6);
+                topGlyphRight.setPosition(0.4);
+                topGlyphLeft.setPosition(0.6);
             }
             if (gamepad1.b){
 
-                glyphLeft.setPosition(0.7);
-                glyphRight.setPosition(0.3);
+                glyphLeft.setPosition(0); // 0.7 is the open position for glyph servo Left
+                glyphRight.setPosition(1); // 0.3 is the open position for glyph servo Right
+                topGlyphRight.setPosition(0);
+                topGlyphLeft.setPosition(1);
             }
             if (gamepad1.dpad_up && positionGlyphMotor >= 5000 ){
 
