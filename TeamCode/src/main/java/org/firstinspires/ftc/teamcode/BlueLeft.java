@@ -77,6 +77,8 @@ public class BlueLeft extends LinearOpMode {
 
 
 
+
+
     @Override
 
     public void runOpMode() throws InterruptedException{
@@ -153,7 +155,11 @@ public class BlueLeft extends LinearOpMode {
 
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+<<<<<<< HEAD
         final ElapsedTime runtime = new ElapsedTime();
+=======
+        double runtimeme = getRuntime();
+>>>>>>> parent of e9a81d4... hu
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         double runtimeme2;
         double runtimeme = getRuntime();
@@ -179,6 +185,7 @@ public class BlueLeft extends LinearOpMode {
         glyphLeft.setPosition(0.9);
         glyphRight.setPosition(0.1);
 
+<<<<<<< HEAD
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         // loop and read the RGB and distance data.
@@ -187,6 +194,8 @@ public class BlueLeft extends LinearOpMode {
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
             // then cast it back to int (SCALE_FACTOR is a double)
+=======
+>>>>>>> parent of e9a81d4... hu
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                     (int) (sensorColor.green() * SCALE_FACTOR),
                     (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -199,12 +208,62 @@ public class BlueLeft extends LinearOpMode {
             telemetry.addData("Blue ", sensorColor.blue());
             telemetry.addData("Hue", hsvValues[0]);
 
+<<<<<<< HEAD
             // change the background color to match the color detected by the RGB sensor.
             // pass a reference to the hue, saturation, and value array as an argument
             // to the HSVToColor method.
             relativeLayout.post(new Runnable() {
                 public void run() {
                     relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
+=======
+            angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+            Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
+                    (int) (this.sensorColor.green() * SCALE_FACTOR),
+                    (int) (this.sensorColor.blue() * SCALE_FACTOR),
+                    hsvValues);
+
+            getRuntime();
+
+            runtimeme2 = getRuntime();
+
+            /*if (completed != 1 ){
+                runtimeme = getRuntime();
+                completed=1;
+            }
+            runtimeme2 = getRuntime() - runtimeme;*/
+
+            telemetry.addData("runtimeme2", runtimeme2);
+
+            telemetry.update();
+
+            if (runtimeme2 <= 5) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BLpower = 0;
+                BRpower = 0;
+                A_ServoValue = 1;
+            }
+
+            if (runtimeme2 > 5 && runtimeme2 <= 8) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+>>>>>>> parent of e9a81d4... hu
                 }
             });
 
@@ -271,6 +330,43 @@ public class BlueLeft extends LinearOpMode {
             }
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+            /*if (runtimeme2< 20) {
+
+                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                        telemetry.addData("VuMark", "is NOT visible");
+                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                        if (vuMark == RelicRecoveryVuMark.LEFT) {
+
+                            telemetry.addData("VuMark", "is Left", vuMark);
+                            vuforiaPosition = LEFT;
+                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                            telemetry.addData("VuMark", "is Center", vuMark);
+                            vuforiaPosition = CENTER;
+                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                            telemetry.addData("VuMark", "is Right", vuMark);
+                            vuforiaPosition = RIGHT;
+                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                            telemetry.addData("VuMark", "is NOT visible", vuMark);
+                        }
+                    }
+            }
+
+
+>>>>>>> parent of e9a81d4... hu
             if (runtimeme2 < 4){
                     FRpower = 0;
                     FLpower = 0;
