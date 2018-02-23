@@ -107,10 +107,10 @@ public class SetzerTeleOp extends LinearOpMode {
             }
             if (gamepad1.a){
 
-                glyphLeft.setPosition(0.4);
-                glyphRight.setPosition(0.6);
-                topGlyphRight.setPosition(0.4);
-                topGlyphLeft.setPosition(0.6);
+                glyphLeft.setPosition(0.22);
+                glyphRight.setPosition(0.8);
+                topGlyphRight.setPosition(0.25);
+                topGlyphLeft.setPosition(0.8);
             }
             if (gamepad1.b){
 
@@ -142,6 +142,16 @@ public class SetzerTeleOp extends LinearOpMode {
             if (!gamepad1.dpad_down && !gamepad1.dpad_up) {
 
                 glyphMotor.setPower(0);
+            }
+
+            if (gamepad1.x) {
+
+                jewelServo.setPosition(0);
+            }
+
+            if (gamepad1.y) {
+
+                jewelServo.setPosition(1);
             }
 
 

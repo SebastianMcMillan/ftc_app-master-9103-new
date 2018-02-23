@@ -69,6 +69,8 @@ public class BlueLeft extends LinearOpMode {
     private Servo jewelServo; //Port 2 Hub 1
 
     VuforiaLocalizer vuforia;
+    private Servo topGlyphRight;
+    private Servo topGlyphLeft;
 
 
 
@@ -92,6 +94,9 @@ public class BlueLeft extends LinearOpMode {
         glyphRight = hardwareMap.servo.get("glyphRight");
 
         jewelServo = hardwareMap.servo.get("jewelServo");
+
+        topGlyphLeft = hardwareMap.servo.get("topGlyphLeft");
+        topGlyphRight = hardwareMap.servo.get("topGlyphRight");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -158,7 +163,9 @@ public class BlueLeft extends LinearOpMode {
         boolean neither = true;
         double A_ServoValue = 1;
         double LIMpower = 0;
-        double RIMpower = 0;
+        double RIMpower = 1;
+        double TRIMpower = 0;
+        double TLIMpower = 1;
 
 
         composeTelemetry();
@@ -166,10 +173,15 @@ public class BlueLeft extends LinearOpMode {
 
         // wait for the start button to be pressed.
 
-        glyphLeft.setPosition(0.9);
-        glyphRight.setPosition(0.1);
+        glyphLeft.setPosition(0.25);
+        glyphRight.setPosition(0.7);
+        topGlyphRight.setPosition(0.25);
+        topGlyphLeft.setPosition(0.7);
+        jewelServo.setPosition(1);
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+
+        waitForStart();
 
         // loop and read the RGB and distance data.
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
@@ -192,26 +204,17 @@ public class BlueLeft extends LinearOpMode {
             // change the background color to match the color detected by the RGB sensor.
             // pass a reference to the hue, saturation, and value array as an argument
             // to the HSVToColor method.
-            relativeLayout.post(new Runnable() {
-                public void run() {
-                    relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
-                }
-            });
 
             telemetry.update();
             angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             telemetry.update();
 
-            waitForStart();
-
 
             // Loop and update the dashboard
+            getRuntime();
 
-
-
-
-                runtimeme2=30 - getRuntime();
+            runtimeme2= 30 - getRuntime();
                 // convert the RGB values to HSV values.
                 // multiply by the SCALE_FACTOR.
                 // then cast it back to int (SCALE_FACTOR is a double)
@@ -220,21 +223,66 @@ public class BlueLeft extends LinearOpMode {
                         (int) (this.sensorColor.blue() * SCALE_FACTOR),
                         hsvValues);
 
-            if (runtimeme2 < 1) {
+            if (runtimeme2 <= 5) {
 
-                FRpower = -0.3;
-                FLpower = -0.3;
-                BLpower = -0.3;
-                BRpower = -0.3;
+                FRpower = 0;
+                FLpower = 0;
+                BLpower = 0;
+                BRpower = 0;
+                A_ServoValue = 1;
             }
 
-            if (runtimeme2 >= 1 && runtimeme2 < 4) {
+            if (runtimeme2 > 5 && runtimeme2 <= 8) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+                }
+
+            }
+
+            else if (runtimeme2 > 5 && runtimeme2 <= 8 && angles.firstAngle >= angles.firstAngle + 90) {
 
                 FRpower = 0;
                 FLpower = 0;
                 BRpower = 0;
                 BLpower = 0;
-                A_ServoValue = 0;
+
+            }
+
+            if (runtimeme2 > 4 && runtimeme2 <= 8 ){
+                FRpower = 0;
+                FLpower = 0;
+                BLpower = 0;
+                BRpower = 0;
+                A_ServoValue = 0.4;
+                if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
+                    telemetry.addLine("This is red");
+                    red = true;
+
+                }
+
+                else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
+                    telemetry.addLine("This is blue");
+                    blue = true;
+                }
+
+                else{
+                    telemetry.addLine("What am I doing with my life?");
+                    neither = true;
+                }
             }
 
 
@@ -471,6 +519,8 @@ public class BlueLeft extends LinearOpMode {
                 jewelServo.setPosition(A_ServoValue);
                 glyphLeft.setPosition(LIMpower);
                 glyphRight.setPosition(RIMpower);
+                topGlyphLeft.setPosition(TLIMpower);
+                topGlyphRight.setPosition(TRIMpower);
 
 
             }

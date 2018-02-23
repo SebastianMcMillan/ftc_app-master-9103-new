@@ -39,7 +39,7 @@ import java.util.Locale;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@Autonomous(name = "BlueLeft", group = "Sensor")
+@Autonomous(name = "BlueRight", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class BlueRight extends LinearOpMode {
 
@@ -257,7 +257,7 @@ public class BlueRight extends LinearOpMode {
                 A_ServoValue = 0;
             }
 
-            if ()
+
 
             /*if (runtimeme2< 20) {
 
