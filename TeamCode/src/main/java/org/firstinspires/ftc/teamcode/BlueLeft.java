@@ -73,8 +73,6 @@ public class BlueLeft extends LinearOpMode {
     private Servo topGlyphLeft;
 
 
-
-
     @Override
 
     public void runOpMode() throws InterruptedException{
@@ -150,7 +148,7 @@ public class BlueLeft extends LinearOpMode {
 
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        double runtimeme = getRuntime();
+        double runtimeme = 0;
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         double runtimeme2;
         double completed = 0;
@@ -181,6 +179,8 @@ public class BlueLeft extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+            getRuntime();
+
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                     (int) (sensorColor.green() * SCALE_FACTOR),
                     (int) (sensorColor.blue() * SCALE_FACTOR),
@@ -199,7 +199,7 @@ public class BlueLeft extends LinearOpMode {
                     (int) (this.sensorColor.blue() * SCALE_FACTOR),
                     hsvValues);
 
-            getRuntime();
+
 
             runtimeme2 = getRuntime();
 
@@ -212,6 +212,12 @@ public class BlueLeft extends LinearOpMode {
             telemetry.addData("runtimeme2", runtimeme2);
 
             telemetry.update();
+
+            if (completed != 0) {
+
+                runtimeme2 = getRuntime();
+                completed = 0;
+            }
 
             if (runtimeme2 <= 5) {
 
@@ -402,40 +408,7 @@ public class BlueLeft extends LinearOpMode {
 
 
 
-
-
-
-
-
-            /*if (runtimeme2< 20) {
-
-                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                        telemetry.addData("VuMark", "is NOT visible");
-                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                        if (vuMark == RelicRecoveryVuMark.LEFT) {
-
-                            telemetry.addData("VuMark", "is Left", vuMark);
-                            vuforiaPosition = LEFT;
-                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                            telemetry.addData("VuMark", "is Center", vuMark);
-                            vuforiaPosition = CENTER;
-                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                            telemetry.addData("VuMark", "is Right", vuMark);
-                            vuforiaPosition = RIGHT;
-                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                            telemetry.addData("VuMark", "is NOT visible", vuMark);
-                        }
-                    }
-            }
-
-
-            if (runtimeme2 < 4){
+            /*if (runtimeme2 < 4){
                     FRpower = 0;
                     FLpower = 0;
                     BLpower = 0;
@@ -627,8 +600,8 @@ public class BlueLeft extends LinearOpMode {
                 }
                 else{
                     A_ServoValue = .1;
-                }*/
-
+                }*//*
+*/
 
 
                 //motors
