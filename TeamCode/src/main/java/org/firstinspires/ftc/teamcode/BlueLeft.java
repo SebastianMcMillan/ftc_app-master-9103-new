@@ -200,7 +200,7 @@ public class BlueLeft extends LinearOpMode {
             telemetry.addData("Hue", hsvValues[0]);
 
             // change the background color to match the color detected by the RGB sensor.
-            // pass a reference to the hue, saturation, and value array as an argument
+            // pass a reference to the  hue, saturation, and value array as an argument
             // to the HSVToColor method.
             relativeLayout.post(new Runnable() {
                 public void run() {
