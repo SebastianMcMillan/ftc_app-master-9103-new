@@ -60,10 +60,6 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor frontLeft; //Port 2 Hub 1
     private DcMotor frontRight; //Port 3 Hub 1
 
-    private DcMotor relicMotor1; //Port 1 Hub 2
-    private Servo relicServo2; //Port 2 Hub 2
-    private CRServo relicServo3; //Port 3 Hub 2
-
     private DcMotor glyphMotor; //Port 0 Hub 2
 
     //Declare Servos
@@ -73,8 +69,8 @@ public class BlueLeft extends LinearOpMode {
     private Servo jewelServo; //Port 2 Hub 1
 
     VuforiaLocalizer vuforia;
-
-
+    private Servo topGlyphRight;
+    private Servo topGlyphLeft;
 
 
 
@@ -93,15 +89,14 @@ public class BlueLeft extends LinearOpMode {
 
         glyphMotor = hardwareMap.dcMotor.get("glyphMotor");
 
-        relicMotor1 = hardwareMap.dcMotor.get("relicMotor1");
-        relicServo2 = hardwareMap.servo.get("relicServo2");
-        relicServo3 = hardwareMap.crservo.get("relicServo3");
-
         //HW Map Servos
         glyphLeft = hardwareMap.servo.get("glyphLeft");
         glyphRight = hardwareMap.servo.get("glyphRight");
 
         jewelServo = hardwareMap.servo.get("jewelServo");
+
+        topGlyphLeft = hardwareMap.servo.get("topGlyphLeft");
+        topGlyphRight = hardwareMap.servo.get("topGlyphRight");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -155,14 +150,9 @@ public class BlueLeft extends LinearOpMode {
 
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-<<<<<<< HEAD
-        final ElapsedTime runtime = new ElapsedTime();
-=======
         double runtimeme = getRuntime();
->>>>>>> parent of e9a81d4... hu
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         double runtimeme2;
-        double runtimeme = getRuntime();
         double completed = 0;
         double FRpower = 0;
         double FLpower = 0;
@@ -170,52 +160,38 @@ public class BlueLeft extends LinearOpMode {
         double BRpower = 0;
         boolean red = false;
         boolean blue = false;
-        boolean neither = true;
         double A_ServoValue = 1;
         double LIMpower = 0;
-        double RIMpower = 0;
+        double RIMpower = 1;
+        double TRIMpower = 0;
+        double TLIMpower = 1;
+        int targetAngle = 0;
 
 
         composeTelemetry();
         telemetry.update();
 
-        // wait for the start button to be pressed.
+        glyphLeft.setPosition(0.25);
+        glyphRight.setPosition(0.7);
+        topGlyphRight.setPosition(0.25);
+        topGlyphLeft.setPosition(0.7);
+        jewelServo.setPosition(1);
+
         waitForStart();
 
-        glyphLeft.setPosition(0.9);
-        glyphRight.setPosition(0.1);
-
-<<<<<<< HEAD
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        // loop and read the RGB and distance data.
-        // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
-            // convert the RGB values to HSV values.
-            // multiply by the SCALE_FACTOR.
-            // then cast it back to int (SCALE_FACTOR is a double)
-=======
->>>>>>> parent of e9a81d4... hu
+
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                     (int) (sensorColor.green() * SCALE_FACTOR),
                     (int) (sensorColor.blue() * SCALE_FACTOR),
                     hsvValues);
 
-            // send the info back to driver station using telemetry function.
             telemetry.addData("Alpha", sensorColor.alpha());
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());
             telemetry.addData("Blue ", sensorColor.blue());
             telemetry.addData("Hue", hsvValues[0]);
 
-<<<<<<< HEAD
-            // change the background color to match the color detected by the RGB sensor.
-            // pass a reference to the  hue, saturation, and value array as an argument
-            // to the HSVToColor method.
-            relativeLayout.post(new Runnable() {
-                public void run() {
-                    relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
-=======
             angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
@@ -263,44 +239,173 @@ public class BlueLeft extends LinearOpMode {
                     BLpower = 0.3;
                     BRpower = -0.3;
 
->>>>>>> parent of e9a81d4... hu
                 }
-            });
 
-            telemetry.update();
-            angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-            telemetry.update();
-
-            waitForStart();
-
-
-            // Loop and update the dashboard
-
-
-
-
-                runtimeme2=30 - getRuntime();
-                // convert the RGB values to HSV values.
-                // multiply by the SCALE_FACTOR.
-                // then cast it back to int (SCALE_FACTOR is a double)
-                Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
-                        (int) (this.sensorColor.green() * SCALE_FACTOR),
-                        (int) (this.sensorColor.blue() * SCALE_FACTOR),
-                        hsvValues);
-
-            if (runtimeme2 < 1) {
-
-                FRpower = -0.3;
-                FLpower = -0.3;
-                BLpower = -0.3;
-                BRpower = -0.3;
             }
 
-            if (runtimeme2 < 1) {
 
-                A_ServoValue = 0;
+            if (runtimeme2 > 8 && runtimeme2 <= 10 ){
+                FRpower = 0;
+                FLpower = 0;
+                BLpower = 0;
+                BRpower = 0;
+                A_ServoValue = 0.4;
+                if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
+                    telemetry.addLine("This is red");
+                    red = true;
+
+
+                }
+
+                else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
+                    telemetry.addLine("This is blue");
+                    blue = true;
+                }
+
+                else{
+                    telemetry.addLine("What am I doing with my life?");
+                }
             }
+
+            if (runtimeme2 > 10 && runtimeme2 <= 14) {
+
+                if (red == true) {
+
+                    FRpower = 0.5;
+                    FLpower = -0.5;
+                    BLpower = 0.5;
+                    BRpower = -0.5;
+                }
+
+                else if (blue == true) {
+
+                    FRpower = -0.5;
+                    FLpower = 0.5;
+                    BLpower = -0.5;
+                    BRpower = 0.5;
+                }
+
+                else {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                }
+            }
+
+
+            if (runtimeme2 > 14 && runtimeme2 <= 16 ) {
+
+                A_ServoValue = 1;
+                FRpower = -0.5;
+                FLpower = -0.5;
+                BLpower = -0.5;
+                BRpower = -0.5;
+            }
+
+            if (runtimeme2 > 16 && runtimeme2 <= 20 ) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+                }
+            }
+
+            if (runtimeme2 > 20 && runtimeme2 <= 24 ) {
+
+                FRpower = 0.5;
+                FLpower = 0.5;
+                BRpower = 0.5;
+                BLpower = 0.5;
+            }
+
+            if (runtimeme2 == 24) {
+
+                 FRpower = 0;
+                 FLpower = 0;
+                 BRpower = 0;
+                 BLpower = 0;
+            }
+
+            if (runtimeme2 > 24 && runtimeme2 <= 26 ) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+                }
+            }
+
+            if (runtimeme2 == 26) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+            if (runtimeme2 > 26 && runtimeme2 <= 28 ) {
+
+                FRpower = 0.5;
+                FLpower = 0.5;
+                BRpower = 0.5;
+                BLpower = 0.5;
+            }
+
+            if (runtimeme2 == 28) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+            if (runtimeme2 > 28 && runtimeme2 <= 29) {
+
+                LIMpower = 0;
+                RIMpower = 1;
+                TRIMpower = 0;
+                TLIMpower = 1;
+            }
+
+            if (runtimeme2 > 29 && runtimeme2 >= 30) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+
+
+
+
+
+
 
             /*if (runtimeme2< 20) {
 
@@ -330,43 +435,6 @@ public class BlueLeft extends LinearOpMode {
             }
 
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-            /*if (runtimeme2< 20) {
-
-                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                        telemetry.addData("VuMark", "is NOT visible");
-                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                        if (vuMark == RelicRecoveryVuMark.LEFT) {
-
-                            telemetry.addData("VuMark", "is Left", vuMark);
-                            vuforiaPosition = LEFT;
-                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                            telemetry.addData("VuMark", "is Center", vuMark);
-                            vuforiaPosition = CENTER;
-                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                            telemetry.addData("VuMark", "is Right", vuMark);
-                            vuforiaPosition = RIGHT;
-                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                            telemetry.addData("VuMark", "is NOT visible", vuMark);
-                        }
-                    }
-            }
-
-
->>>>>>> parent of e9a81d4... hu
             if (runtimeme2 < 4){
                     FRpower = 0;
                     FLpower = 0;
@@ -572,6 +640,8 @@ public class BlueLeft extends LinearOpMode {
                 jewelServo.setPosition(A_ServoValue);
                 glyphLeft.setPosition(LIMpower);
                 glyphRight.setPosition(RIMpower);
+                topGlyphLeft.setPosition(TLIMpower);
+                topGlyphRight.setPosition(TRIMpower);
 
 
             }
