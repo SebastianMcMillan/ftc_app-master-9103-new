@@ -79,6 +79,8 @@ public class BlueLeft extends LinearOpMode {
 
 
 
+
+
     @Override
 
     public void runOpMode() throws InterruptedException{
@@ -156,7 +158,11 @@ public class BlueLeft extends LinearOpMode {
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         final ElapsedTime runtime = new ElapsedTime();
+=======
+        double runtimeme = getRuntime();
+>>>>>>> parent of e9a81d4... hu
 =======
         double runtimeme = getRuntime();
 >>>>>>> parent of e9a81d4... hu
@@ -186,6 +192,7 @@ public class BlueLeft extends LinearOpMode {
         glyphRight.setPosition(0.1);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         // loop and read the RGB and distance data.
@@ -194,6 +201,8 @@ public class BlueLeft extends LinearOpMode {
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
             // then cast it back to int (SCALE_FACTOR is a double)
+=======
+>>>>>>> parent of e9a81d4... hu
 =======
 >>>>>>> parent of e9a81d4... hu
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
@@ -331,6 +340,43 @@ public class BlueLeft extends LinearOpMode {
 
 
 <<<<<<< HEAD
+=======
+
+
+
+
+
+
+            /*if (runtimeme2< 20) {
+
+                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                        telemetry.addData("VuMark", "is NOT visible");
+                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+                        if (vuMark == RelicRecoveryVuMark.LEFT) {
+
+                            telemetry.addData("VuMark", "is Left", vuMark);
+                            vuforiaPosition = LEFT;
+                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                            telemetry.addData("VuMark", "is Center", vuMark);
+                            vuforiaPosition = CENTER;
+                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                            telemetry.addData("VuMark", "is Right", vuMark);
+                            vuforiaPosition = RIGHT;
+                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
+
+                            telemetry.addData("VuMark", "is NOT visible", vuMark);
+                        }
+                    }
+            }
+
+
+<<<<<<< HEAD
+>>>>>>> parent of e9a81d4... hu
 =======
 
 
