@@ -150,7 +150,7 @@ public class BlueLeft extends LinearOpMode {
 
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        final ElapsedTime runtime = new ElapsedTime();
+        double runtimeme = getRuntime();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         double runtimeme2;
         double completed = 0;
@@ -160,18 +160,16 @@ public class BlueLeft extends LinearOpMode {
         double BRpower = 0;
         boolean red = false;
         boolean blue = false;
-        boolean neither = true;
         double A_ServoValue = 1;
         double LIMpower = 0;
         double RIMpower = 1;
         double TRIMpower = 0;
         double TLIMpower = 1;
+        int targetAngle = 0;
 
 
         composeTelemetry();
         telemetry.update();
-
-        // wait for the start button to be pressed.
 
         glyphLeft.setPosition(0.25);
         glyphRight.setPosition(0.7);
@@ -179,49 +177,41 @@ public class BlueLeft extends LinearOpMode {
         topGlyphLeft.setPosition(0.7);
         jewelServo.setPosition(1);
 
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
         waitForStart();
 
-        // loop and read the RGB and distance data.
-        // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
-            // convert the RGB values to HSV values.
-            // multiply by the SCALE_FACTOR.
-            // then cast it back to int (SCALE_FACTOR is a double)
+
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
                     (int) (sensorColor.green() * SCALE_FACTOR),
                     (int) (sensorColor.blue() * SCALE_FACTOR),
                     hsvValues);
 
-            // send the info back to driver station using telemetry function.
             telemetry.addData("Alpha", sensorColor.alpha());
             telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());
             telemetry.addData("Blue ", sensorColor.blue());
             telemetry.addData("Hue", hsvValues[0]);
 
-            // change the background color to match the color detected by the RGB sensor.
-            // pass a reference to the hue, saturation, and value array as an argument
-            // to the HSVToColor method.
-
-            telemetry.update();
             angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            telemetry.update();
+            Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
+                    (int) (this.sensorColor.green() * SCALE_FACTOR),
+                    (int) (this.sensorColor.blue() * SCALE_FACTOR),
+                    hsvValues);
 
-
-            // Loop and update the dashboard
             getRuntime();
 
-            runtimeme2= 30 - getRuntime();
-                // convert the RGB values to HSV values.
-                // multiply by the SCALE_FACTOR.
-                // then cast it back to int (SCALE_FACTOR is a double)
-                Color.RGBToHSV((int) (this.sensorColor.red() * SCALE_FACTOR),
-                        (int) (this.sensorColor.green() * SCALE_FACTOR),
-                        (int) (this.sensorColor.blue() * SCALE_FACTOR),
-                        hsvValues);
+            runtimeme2 = getRuntime();
+
+            /*if (completed != 1 ){
+                runtimeme = getRuntime();
+                completed=1;
+            }
+            runtimeme2 = getRuntime() - runtimeme;*/
+
+            telemetry.addData("runtimeme2", runtimeme2);
+
+            telemetry.update();
 
             if (runtimeme2 <= 5) {
 
@@ -253,16 +243,8 @@ public class BlueLeft extends LinearOpMode {
 
             }
 
-            else if (runtimeme2 > 5 && runtimeme2 <= 8 && angles.firstAngle >= angles.firstAngle + 90) {
 
-                FRpower = 0;
-                FLpower = 0;
-                BRpower = 0;
-                BLpower = 0;
-
-            }
-
-            if (runtimeme2 > 4 && runtimeme2 <= 8 ){
+            if (runtimeme2 > 8 && runtimeme2 <= 10 ){
                 FRpower = 0;
                 FLpower = 0;
                 BLpower = 0;
@@ -271,6 +253,7 @@ public class BlueLeft extends LinearOpMode {
                 if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
                     telemetry.addLine("This is red");
                     red = true;
+
 
                 }
 
@@ -281,9 +264,147 @@ public class BlueLeft extends LinearOpMode {
 
                 else{
                     telemetry.addLine("What am I doing with my life?");
-                    neither = true;
                 }
             }
+
+            if (runtimeme2 > 10 && runtimeme2 <= 14) {
+
+                if (red == true) {
+
+                    FRpower = 0.5;
+                    FLpower = -0.5;
+                    BLpower = 0.5;
+                    BRpower = -0.5;
+                }
+
+                else if (blue == true) {
+
+                    FRpower = -0.5;
+                    FLpower = 0.5;
+                    BLpower = -0.5;
+                    BRpower = 0.5;
+                }
+
+                else {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BLpower = 0;
+                    BRpower = 0;
+                }
+            }
+
+
+            if (runtimeme2 > 14 && runtimeme2 <= 16 ) {
+
+                A_ServoValue = 1;
+                FRpower = -0.5;
+                FLpower = -0.5;
+                BLpower = -0.5;
+                BRpower = -0.5;
+            }
+
+            if (runtimeme2 > 16 && runtimeme2 <= 20 ) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+                }
+            }
+
+            if (runtimeme2 > 20 && runtimeme2 <= 24 ) {
+
+                FRpower = 0.5;
+                FLpower = 0.5;
+                BRpower = 0.5;
+                BLpower = 0.5;
+            }
+
+            if (runtimeme2 == 24) {
+
+                 FRpower = 0;
+                 FLpower = 0;
+                 BRpower = 0;
+                 BLpower = 0;
+            }
+
+            if (runtimeme2 > 24 && runtimeme2 <= 26 ) {
+
+                if (angles.firstAngle >= 90) {
+
+                    FRpower = 0;
+                    FLpower = 0;
+                    BRpower = 0;
+                    BLpower = 0;
+
+                }
+                else if (angles.firstAngle <= 90) {
+
+                    FRpower = 0.3;
+                    FLpower = -0.3;
+                    BLpower = 0.3;
+                    BRpower = -0.3;
+
+                }
+            }
+
+            if (runtimeme2 == 26) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+            if (runtimeme2 > 26 && runtimeme2 <= 28 ) {
+
+                FRpower = 0.5;
+                FLpower = 0.5;
+                BRpower = 0.5;
+                BLpower = 0.5;
+            }
+
+            if (runtimeme2 == 28) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+            if (runtimeme2 > 28 && runtimeme2 <= 29) {
+
+                LIMpower = 0;
+                RIMpower = 1;
+                TRIMpower = 0;
+                TLIMpower = 1;
+            }
+
+            if (runtimeme2 > 29 && runtimeme2 >= 30) {
+
+                FRpower = 0;
+                FLpower = 0;
+                BRpower = 0;
+                BLpower = 0;
+            }
+
+
+
+
+
+
 
 
             /*if (runtimeme2< 20) {
