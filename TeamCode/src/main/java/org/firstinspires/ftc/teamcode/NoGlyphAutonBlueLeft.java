@@ -184,7 +184,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
             getRuntime();
 
-            runtimeme2 = getruntime()();
+            runtime2 = getruntime()();
 
             /*if (completed != 1 ){
                 runtimeme = getruntime()();
@@ -192,7 +192,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             }
             runtimeme2 = getruntime()() - runtimeme;*/
 
-            telemetry.addData("runtimeme2", getruntime()());
+            telemetry.addData("runtime2", getruntime()());
 
             telemetry.update();
 // turn left, go forward, turn right, reverse, drow jewel manipulator, color sensor on right side do that stuff then turn right then forward to crypto then right forward stop release
