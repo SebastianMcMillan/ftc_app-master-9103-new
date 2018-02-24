@@ -89,10 +89,10 @@ public class BlueLeftTesting extends LinearOpMode {
         }
 
             if (getRuntime() > 5 && getRuntime() <= 7) { //CHANGE VALUES AFTER FIRST TEST
-                glyphLeft.setPosition(0.25);
-                glyphRight.setPosition(0.7);
-                topGlyphRight.setPosition(0.25);
-                topGlyphLeft.setPosition(0.7);
+                glyphLeft.setPosition(0.7);
+                glyphRight.setPosition(0.25);
+                topGlyphRight.setPosition(0.7);
+                topGlyphLeft.setPosition(0.25);
                 //jewelServo.setPosition(1);
             }
 
