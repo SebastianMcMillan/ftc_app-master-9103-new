@@ -133,9 +133,9 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
         angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        double runtimeme = getRuntime();
+        double runtime = getruntime()();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-        double runtimeme2;
+        double runtime2;
         double completed = 0;
         double FRpower = 0;
         double FLpower = 0;
@@ -184,19 +184,19 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
             getRuntime();
 
-            runtimeme2 = getRuntime();
+            runtimeme2 = getruntime()();
 
             /*if (completed != 1 ){
-                runtimeme = getRuntime();
+                runtimeme = getruntime()();
                 completed=1;
             }
-            runtimeme2 = getRuntime() - runtimeme;*/
+            runtimeme2 = getruntime()() - runtimeme;*/
 
-            telemetry.addData("runtimeme2", getRuntime());
+            telemetry.addData("runtimeme2", getruntime()());
 
             telemetry.update();
 // turn left, go forward, turn right, reverse, drow jewel manipulator, color sensor on right side do that stuff then turn right then forward to crypto then right forward stop release
-            if (getRuntime <= 3) { // literally does nothing for 3 secs
+            if (getruntime() <= 3) { // literally does nothing for 3 secs
 
                 FRpower = 0;
                 FLpower = 0;
@@ -205,35 +205,35 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 A_ServoValue = 1;
             }
 
-            if (getRuntime > 3 && getRuntime <= 5) { // turns left
+            if (getruntime() > 3 && getruntime() <= 5) { // turns left
                 FRpower = .5;
                 FLpower = 0;
                 BLpower = 0;
                 BRpower = .5;
             }
 
-            if (getRuntime > 5 && getRuntime <= 7) { // goes forward
+            if (getruntime() > 5 && getruntime() <= 7) { // goes forward
                 FRpower = .5;
                 FLpower = .5;
                 BLpower = .5;
                 BRpower = .5;
             }
 
-            if (getRuntime > 7 && getRuntime <= 8) { // turns right
+            if (getruntime() > 7 && getruntime() <= 8) { // turns right
                 FRpower = 0;
                 FLpower = .5;
                 BLpower = .5;
                 BRpower = 0;
             }
 
-            if (getRuntime > 8 && getRuntime <= 10) { // reverses
+            if (getruntime() > 8 && getruntime() <= 10) { // reverses
                 FRpower = -.5;
                 FLpower = -.5;
                 BLpower = -.5;
                 BRpower = -.5;
             }
 
-            if (getRuntime > 10 && getRuntime <= 15) { // does jewel things
+            if (getruntime() > 10 && getruntime() <= 15) { // does jewel things
                 A_ServoValue = 0.4;
                 if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()) {
                     telemetry.addLine("This is red");
@@ -273,7 +273,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             }
 
             //KAYLAN STOPPED LOOKING AT THINGS HERE
-            if (getRuntime > 14 && getRuntime <= 16 ) {
+            if (getruntime() > 14 && getruntime() <= 16 ) {
 
                 A_ServoValue = 1;
                 FRpower = -0.5;
@@ -282,7 +282,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BRpower = -0.5;
             }
 
-            if (getRuntime > 16 && getRuntime <= 20 ) {
+            if (getruntime() > 16 && getruntime() <= 20 ) {
 
                 if (angles.firstAngle >= 90) {
 
@@ -302,7 +302,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-            if (getRuntime > 20 && getRuntime <= 24 ) {
+            if (getruntime() > 20 && getruntime() <= 24 ) {
 
                 FRpower = 0.5;
                 FLpower = 0.5;
@@ -310,7 +310,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0.5;
             }
 
-            if (getRuntime == 24) {
+            if (getruntime() == 24) {
 
                  FRpower = 0;
                  FLpower = 0;
@@ -318,7 +318,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                  BLpower = 0;
             }
 
-            if (getRuntime > 24 && getRuntime <= 26 ) {
+            if (getruntime() > 24 && getruntime() <= 26 ) {
 
                 if (angles.firstAngle >= 90) {
 
@@ -338,7 +338,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-            if (getRuntime == 26) {
+            if (getruntime() == 26) {
 
                 FRpower = 0;
                 FLpower = 0;
@@ -346,7 +346,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0;
             }
 
-            if (getRuntime > 26 && getRuntime <= 28 ) {
+            if (getruntime() > 26 && getruntime() <= 28 ) {
 
                 FRpower = 0.5;
                 FLpower = 0.5;
@@ -354,7 +354,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0.5;
             }
 
-            if (getRuntime == 28) {
+            if (getruntime() == 28) {
 
                 FRpower = 0;
                 FLpower = 0;
@@ -362,7 +362,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0;
             }
 
-            if (getRuntime > 28 && getRuntime <= 29) {
+            if (getruntime() > 28 && getruntime() <= 29) {
 
                 LIMpower = 0;
                 RIMpower = 1;
@@ -370,7 +370,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 TLIMpower = 1;
             }
 
-            if (getRuntime > 29 && getRuntime >= 30) {
+            if (getruntime() > 29 && getruntime() >= 30) {
 
                 FRpower = 0;
                 FLpower = 0;
