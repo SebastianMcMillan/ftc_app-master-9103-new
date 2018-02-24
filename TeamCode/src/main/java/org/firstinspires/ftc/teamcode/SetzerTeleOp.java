@@ -107,10 +107,10 @@ public class SetzerTeleOp extends LinearOpMode {
             }
             if (gamepad1.a){
 
-                glyphLeft.setPosition(0.22);
-                glyphRight.setPosition(0.8);
-                topGlyphRight.setPosition(0.25);
-                topGlyphLeft.setPosition(0.8);
+                glyphLeft.setPosition(0.3);
+                glyphRight.setPosition(0.7);
+                topGlyphRight.setPosition(0.3);
+                topGlyphLeft.setPosition(0.7);
             }
             if (gamepad1.b){
 
