@@ -195,8 +195,8 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             telemetry.addData("runtimeme2", getRuntime());
 
             telemetry.update();
-
-            if (getRuntime <= 5) {
+// turn left, go forward, turn right, reverse, drow jewel manipulator, color sensor on right side do that stuff then turn right then forward to crypto then right forward stop release
+            if (getRuntime <= 3) { // literally does nothing for 3 secs
 
                 FRpower = 0;
                 FLpower = 0;
@@ -205,59 +205,47 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 A_ServoValue = 1;
             }
 
-            if (getRuntime > 5 && getRuntime <= 8) {
-
-<<<<<<< HEAD
-                if (angles.firstAngle >= 85 || agles.firstAngle <= 95) {
-
-                    FRpower = 0;
-                    FLpower = 0;
-                    BRpower = 0;
-                    BLpower = 0;
-
-                }
-                else if (angles.firstAngle <= 85) {
-
-                    FRpower = 0.3;
-                    FLpower = -0.3;
-                    BLpower = 0.3;
-                    BRpower = -0.3;
-
-                }
-=======
-                FRpower = 0.5;
-                FLpower = -0.5;
-                BLpower = 0.5;
-                BRpower = -0.5;
->>>>>>> db0ac1e06f20d65b7c7e8c6a9340bd53e37583d0
-
-            }
-
-
-            if (runtimeme2 > 8 && runtimeme2 <= 10 ){
-                FRpower = 0;
+            if (getRuntime > 3 && getRuntime <= 5) { // turns left
+                FRpower = .5;
                 FLpower = 0;
                 BLpower = 0;
+                BRpower = .5;
+            }
+
+            if (getRuntime > 5 && getRuntime <= 7) { // goes forward
+                FRpower = .5;
+                FLpower = .5;
+                BLpower = .5;
+                BRpower = .5;
+            }
+
+            if (getRuntime > 7 && getRuntime <= 8) { // turns right
+                FRpower = 0;
+                FLpower = .5;
+                BLpower = .5;
                 BRpower = 0;
+            }
+
+            if (getRuntime > 8 && getRuntime <= 10) { // reverses
+                FRpower = -.5;
+                FLpower = -.5;
+                BLpower = -.5;
+                BRpower = -.5;
+            }
+
+            if (getRuntime > 10 && getRuntime <= 15) { // does jewel things
                 A_ServoValue = 0.4;
-                if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
+                if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()) {
                     telemetry.addLine("This is red");
                     red = true;
 
 
-                }
-
-                else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
+                } else if (hsvValues[0] >= 35 && sensorColor.red() < sensorColor.blue()) {
                     telemetry.addLine("This is blue");
                     blue = true;
-                }
-
-                else{
+                } else {
                     telemetry.addLine("What am I doing with my life?");
                 }
-            }
-
-            if (runtimeme2 > 10 && runtimeme2 <= 14) {
 
                 if (red == true) {
 
@@ -284,7 +272,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-
+            //KAYLAN STOPPED LOOKING AT THINGS HERE
             if (runtimeme2 > 14 && runtimeme2 <= 16 ) {
 
                 A_ServoValue = 1;
