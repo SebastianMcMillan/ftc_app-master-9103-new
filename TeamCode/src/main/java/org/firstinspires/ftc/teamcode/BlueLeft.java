@@ -72,9 +72,6 @@ public class BlueLeft extends LinearOpMode {
     private Servo topGlyphRight;
     private Servo topGlyphLeft;
 
-
-
-
     @Override
 
     public void runOpMode() throws InterruptedException{
@@ -117,7 +114,6 @@ public class BlueLeft extends LinearOpMode {
 
         // get a reference to the color sensor.
         sensorColor = hardwareMap.get(ColorSensor.class, "colorSensor");
-
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -167,7 +163,6 @@ public class BlueLeft extends LinearOpMode {
         double TLIMpower = 1;
         int targetAngle = 0;
 
-
         composeTelemetry();
         telemetry.update();
 
@@ -203,12 +198,6 @@ public class BlueLeft extends LinearOpMode {
 
             runtimeme2 = getRuntime();
 
-            /*if (completed != 1 ){
-                runtimeme = getRuntime();
-                completed=1;
-            }
-            runtimeme2 = getRuntime() - runtimeme;*/
-
             telemetry.addData("runtimeme2", runtimeme2);
 
             telemetry.update();
@@ -238,11 +227,8 @@ public class BlueLeft extends LinearOpMode {
                     FLpower = -0.3;
                     BLpower = 0.3;
                     BRpower = -0.3;
-
                 }
-
             }
-
 
             if (runtimeme2 > 8 && runtimeme2 <= 10 ){
                 FRpower = 0;
@@ -253,7 +239,6 @@ public class BlueLeft extends LinearOpMode {
                 if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
                     telemetry.addLine("This is red");
                     red = true;
-
 
                 }
 
@@ -293,7 +278,6 @@ public class BlueLeft extends LinearOpMode {
                     BRpower = 0;
                 }
             }
-
 
             if (runtimeme2 > 14 && runtimeme2 <= 16 ) {
 
@@ -356,7 +340,6 @@ public class BlueLeft extends LinearOpMode {
                     FLpower = -0.3;
                     BLpower = 0.3;
                     BRpower = -0.3;
-
                 }
             }
 
@@ -399,238 +382,6 @@ public class BlueLeft extends LinearOpMode {
                 BRpower = 0;
                 BLpower = 0;
             }
-
-
-
-
-
-
-
-
-            /*if (runtimeme2< 20) {
-
-                    RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-                    if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                        telemetry.addData("VuMark", "is NOT visible");
-                    } else if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-                        if (vuMark == RelicRecoveryVuMark.LEFT) {
-
-                            telemetry.addData("VuMark", "is Left", vuMark);
-                            vuforiaPosition = LEFT;
-                        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                            telemetry.addData("VuMark", "is Center", vuMark);
-                            vuforiaPosition = CENTER;
-                        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                            telemetry.addData("VuMark", "is Right", vuMark);
-                            vuforiaPosition = RIGHT;
-                        } else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                            telemetry.addData("VuMark", "is NOT visible", vuMark);
-                        }
-                    }
-            }
-
-
-            if (runtimeme2 < 4){
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-                }
-            else if (runtimeme2>4 && runtimeme2<7){
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-                    jewelServo.setPosition(0);
-                    if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
-                        telemetry.addLine("This is red");
-                        red = true;
-
-                    }
-
-                    else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
-                        telemetry.addLine("This is blue");
-                        blue = true;
-                    }
-
-                    else{
-                        telemetry.addLine("What am I doing with my life?");
-                        neither = true;
-                    }
-                }
-
-                if (runtimeme2 > 7 &&  runtimeme2 <7.4)
-
-                {
-                    if (red == blue){
-                        FRpower = 0;
-                        FLpower = 0;
-                        BLpower = 0;
-                        BRpower = 0;
-                        neither = true;
-                    }
-                    else {
-                        neither = false;
-                    }
-                }
-
-                else if (runtimeme2 > 7.4 &&  runtimeme2 <=7.7) {
-                    if (blue==true){
-
-                        FRpower = -0.3;
-                        FLpower = 0.3;
-                        BLpower = -0.3;
-                        BRpower = 0.3;
-                    }
-                    else if (red==true){
-                        FRpower = 0.3;
-                        FLpower = -0.3;
-                        BLpower = 0.3;
-                        BRpower = -0.3;
-
-                    }
-
-                    else{
-                        FRpower = 0;
-                        FLpower = 0;
-                        BLpower = 0;
-                        BRpower = 0;
-                    }}
-
-
-                else if (runtimeme2 > 7.8 &&  runtimeme2 <=8.2){
-
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-                    A_ServoValue = 1;
-
-                }
-                else if (runtimeme2 > 8.2 &&  runtimeme2 <=8.5) {
-
-
-                    if (blue==true){
-
-                        FRpower = 0.3;
-                        FLpower = -0.3;
-                        BLpower = 0.3;
-                        BRpower = -0.3;
-
-                    }
-                    else if (red==true){
-
-                        FRpower = -0.3;
-                        FLpower = 0.3;
-                        BLpower = -0.3;
-                        BRpower = 0.3;
-
-                    }}
-                else if (runtimeme2 > 8.55 &&  runtimeme2 <=12.3){
-
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-                }
-                else if (runtimeme2 > 12.3 && runtimeme2 <= 18) {
-
-                    if (runtimeme2 > 12.3 && runtimeme2 <= 12.3 + .3) {
-                        FRpower = .3;
-                        FLpower = .3;
-                        BLpower = .3;
-                        BRpower =.3;
-
-                    }
-
-                    else{
-                        FRpower = 0;
-                        FLpower = 0;
-                        BLpower = 0;
-                        BRpower = 0;
-
-                    }}
-                else if (runtimeme2 > 18&& runtimeme2 <= 23){
-                    if (angles.firstAngle>=-83){
-                        FRpower = -.3;
-                        FLpower = .3;
-                        BLpower = -.3;
-                        BRpower = .3;
-                    }
-                    else{
-                        FRpower = 0;
-                        FLpower = 0;
-                        BLpower = 0;
-                        BRpower = 0;
-                    }
-                }
-                else if (runtimeme2 > 23 && runtimeme2 <= 24){
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-                }
-                else if (runtimeme2 > 24 && runtimeme2 <= 25.5){
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-
-
-                }
-
-                else if (runtimeme2 > 25.5&& runtimeme2 <=27.2 ){
-                    FRpower = -.3;
-                    FLpower = -.3;
-                    BLpower = -.3;
-                    BRpower =-.5;
-                }
-                else if (runtimeme2 > 27.2&& runtimeme2 <=27.6 ){
-                    FRpower = .3;
-                    FLpower = .3;
-                    BLpower = .3;
-                    BRpower = .3;
-                }
-                else if (runtimeme2 > 27.6 && runtimeme2 <=28.5 ){
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-
-                }
-                else{
-                    FRpower = 0;
-                    FLpower = 0;
-                    BLpower = 0;
-                    BRpower = 0;
-
-                }
-
-
-
-
-
-
-
-                if (runtimeme2 < 3) {
-                    A_ServoValue = .1;
-
-                } else if (runtimeme2 > 3 && runtimeme2 < 8) {
-                    A_ServoValue = .6;
-                } else if (runtimeme2 > 8&& runtimeme2 < 25) {
-                    A_ServoValue = .1;
-                }
-                else{
-                    A_ServoValue = .1;
-                }*/
-
-
-
                 //motors
                 frontLeft.setPower(FLpower);
                 frontRight.setPower(FRpower);
@@ -642,274 +393,10 @@ public class BlueLeft extends LinearOpMode {
                 glyphRight.setPosition(RIMpower);
                 topGlyphLeft.setPosition(TLIMpower);
                 topGlyphRight.setPosition(TRIMpower);
-
             }
-        /*relativeLayout.post(new Runnable() {
-            public void run() {
-                relativeLayout.setBackgroundColor(Color.WHITE);
-            }
-        });*/
-
-
-            /*while (Math.abs(robotAngle - target) > 3 && opModeIsActive()) {  //Continue while the robot direction is further than three degrees from the target
-                if (robotAngle > target) {  //if gyro is positive, we will turn right
-
-                    telemetry.update();
-                    frontRight.setPower(-0.25);
-                    frontLeft.setPower(0.25);
-                    backRight.setPower(-0.25);
-                    backLeft.setPower(0.25);
-                }
-
-                if (robotAngle < target) {  //if gyro is positive, we will turn left
-
-                    telemetry.update();
-                    frontRight.setPower(0.25);
-                    frontLeft.setPower(-0.25);
-                    backRight.setPower(0.25);
-                    backLeft.setPower(-0.25);
-                }
-
-                angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);  //Set variables to gyro readings
-                robotAngle = angles.firstAngle;
-                telemetry.update();
-            }*/
-
-            /*angles = imu.getAngularOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            telemetry.update();
-            if (angles.firstAngle>=-84){
-                telemetry.update();
-                frontRight.setPower(-0.25);
-                frontLeft.setPower(0.25);
-                backRight.setPower(-0.25);
-                backLeft.setPower(0.25);
-            }
-            else{
-                telemetry.update();
-                frontRight.setPower(0);
-                frontLeft.setPower(0);
-                backRight.setPower(0);
-                backLeft.setPower(0);
-            }
-*/
-
-
-            /*runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
-            }
-            runtime.reset();
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-
-            *//*hile (opModeIsActive() && angles.firstAngle != -90){
-
-                frontRight.setPower(-0.5);
-                frontLeft.setPower(0.5);
-                backRight.setPower(-0.5);
-                backLeft.setPower(0.5);
-            }
-            robotAngle = angles.secondAngle;
-*//*
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-
-                frontLeft.setPower(-0.5);
-                frontRight.setPower(-0.5);
-                backLeft.setPower(-0.5);
-                backRight.setPower(-0.5);
-            }
-            runtime.reset();
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-
-            jewelServo.setPosition(0);
-            if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()){
-                telemetry.addLine("This is red");
-                runtime.reset();
-                while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-
-                    frontLeft.setPower(0.5);
-                    frontRight.setPower(-0.5);
-                    backLeft.setPower(0.5);
-                    backRight.setPower(-0.5);
-                }
-                runtime.reset();
-
-                while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-
-                    frontLeft.setPower(-0.5);
-                    frontRight.setPower(0.5);
-                    backLeft.setPower(-0.5);
-                    backRight.setPower(0.5);
-                }
-                runtime.reset();
-            }
-
-
-            else if (hsvValues[0] >= 35 && sensorColor.red() <sensorColor.blue()){
-                telemetry.addLine("This is blue");
-                runtime.reset();
-                while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-
-                    frontLeft.setPower(-0.5);
-                    frontRight.setPower(0.5);
-                    backLeft.setPower(-0.5);
-                    backRight.setPower(0.5);
-                }
-                runtime.reset();
-
-                while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-
-                    frontLeft.setPower(0.5);
-                    frontRight.setPower(-0.5);
-                    backLeft.setPower(0.5);
-                    backRight.setPower(-0.5);
-                }
-                runtime.reset();
-            }
-
-            else{
-                telemetry.addLine("What am I doing with my life?");
-            }
-            jewelServo.setPosition(1);
-
-            while (opModeIsActive() && robotAngle - 90 == robotAngle){
-
-                frontRight.setPower(-0.5);
-                frontLeft.setPower(0.5);
-                backRight.setPower(-0.5);
-                backLeft.setPower(0.5);
-            }
-            robotAngle = angles.secondAngle;
-
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
-            }
-            runtime.reset();
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-
-                telemetry.addData("VuMark", "is visible", vuMark);
-            }
-
-            else if (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-
-                telemetry.addData("VuMark", "is NOT visible", vuMark);
-            }
-
-            if (vuMark == RelicRecoveryVuMark.LEFT) {
-
-                telemetry.addData("VuMark", "is Left", vuMark);
-                vuforiaPosition = LEFT;
-            }
-
-            else if (vuMark == RelicRecoveryVuMark.CENTER) {
-
-                telemetry.addData("VuMark", "is Center", vuMark);
-                vuforiaPosition = CENTER;
-            }
-
-            else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-
-                telemetry.addData("VuMark", "is Right", vuMark);
-                vuforiaPosition = RIGHT;
-            }
-
-            while (opModeIsActive() && robotAngle + 90 == robotAngle){
-
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
-            }
-            robotAngle = angles.secondAngle;
-
-            runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < vuforiaPosition)) {
-
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
-            }
-            runtime.reset();
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);*/
-
-            /*while (opModeIsActive() && robotAngle + 90 == robotAngle){
-
-                frontRight.setPower(0.5);
-                frontLeft.setPower(-0.5);
-                backRight.setPower(0.5);
-                backLeft.setPower(-0.5);
-            }
-            robotAngle = angles.secondAngle;*/
-
-           /* runtime.reset();
-            while (opModeIsActive() && (runtime.seconds() < 4)) {
-
-                frontLeft.setPower(0.5);
-                frontRight.setPower(0.5);
-                backLeft.setPower(0.5);
-                backRight.setPower(0.5);
-            }
-            runtime.reset();
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-
-            glyphLeft.setPosition(0.7); // 0.7 is the open position for glyph servo Left
-            glyphRight.setPosition(0.3); // 0.3 is the open position for glyph servo Right
-*/
-
-            /*runtime.reset();
-            while (opModeIsActive() && runtime.seconds() < 30){
-
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);}*/
-
         }
 
         // Set the panel back to the default color
-
-
-
-
 
     //----------------------------------------------------------------------------------------------
     // Telemetry Configuration
@@ -986,10 +473,4 @@ public class BlueLeft extends LinearOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-
-
-
-
 }
-
-
