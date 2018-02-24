@@ -192,7 +192,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             }
             runtimeme2 = getRuntime() - runtimeme;*/
 
-            telemetry.addData("runtimeme2", runtimeme2);
+            telemetry.addData("runtimeme2", getRuntime());
 
             telemetry.update();
 
@@ -207,22 +207,10 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
             if (runtimeme2 > 5 && runtimeme2 <= 8) {
 
-                if (angles.firstAngle >= 90) {
-
-                    FRpower = 0;
-                    FLpower = 0;
-                    BRpower = 0;
-                    BLpower = 0;
-
-                }
-                else if (angles.firstAngle <= 90) {
-
-                    FRpower = 0.3;
-                    FLpower = -0.3;
-                    BLpower = 0.3;
-                    BRpower = -0.3;
-
-                }
+                FRpower = 0.5;
+                FLpower = -0.5;
+                BLpower = 0.5;
+                BRpower = -0.5;
 
             }
 
