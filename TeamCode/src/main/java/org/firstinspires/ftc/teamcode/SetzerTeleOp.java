@@ -107,17 +107,17 @@ public class SetzerTeleOp extends LinearOpMode {
             }
             if (gamepad1.a){
 
-                glyphLeft.setPosition(0.3);
-                glyphRight.setPosition(0.7);
-                topGlyphRight.setPosition(0.3);
-                topGlyphLeft.setPosition(0.7);
+                glyphLeft.setPosition(0.25);
+                glyphRight.setPosition(0.69);
+                topGlyphRight.setPosition(0.25);
+                topGlyphLeft.setPosition(0.72);
             }
             if (gamepad1.b){
 
-                glyphLeft.setPosition(0); // 0.7 is the open position for glyph servo Left
-                glyphRight.setPosition(1); // 0.3 is the open position for glyph servo Right
-                topGlyphRight.setPosition(0);
-                topGlyphLeft.setPosition(1);
+                glyphLeft.setPosition(0.15);
+                glyphRight.setPosition(0.79);
+                topGlyphRight.setPosition(0.15);
+                topGlyphLeft.setPosition(0.82);
             }
             if (gamepad1.dpad_up && positionGlyphMotor >= 5000 ){
 
