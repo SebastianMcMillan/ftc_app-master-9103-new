@@ -79,7 +79,7 @@ public class BlueLeftTesting extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (getRuntime() > 0 && getRuntime() <= 5) {
+            if (getRuntime() > 0 && getRuntime() <= 5) { //open
                 glyphLeft.setPosition(0.25);
                 glyphRight.setPosition(0.7);
                 topGlyphRight.setPosition(0.25);
@@ -88,11 +88,19 @@ public class BlueLeftTesting extends LinearOpMode {
             }
         }
 
-            if (getRuntime() > 5 && getRuntime() <= 7) { //CHANGE VALUES AFTER FIRST TEST
+            if (getRuntime() > 5 && getRuntime() <= 7) { //should be closed but isnt quite yet
                 glyphLeft.setPosition(0.7);
                 glyphRight.setPosition(0.25);
                 topGlyphRight.setPosition(0.7);
                 topGlyphLeft.setPosition(0.25);
+                //jewelServo.setPosition(1);
+            }
+
+            if (getRuntime() > 7) { //open
+                glyphLeft.setPosition(0.25);
+                glyphRight.setPosition(0.7);
+                topGlyphRight.setPosition(0.25);
+                topGlyphLeft.setPosition(0.7);
                 //jewelServo.setPosition(1);
             }
 
