@@ -273,7 +273,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             }
 
             //KAYLAN STOPPED LOOKING AT THINGS HERE
-            if (runtimeme2 > 14 && runtimeme2 <= 16 ) {
+            if (getRuntime > 14 && getRuntime <= 16 ) {
 
                 A_ServoValue = 1;
                 FRpower = -0.5;
@@ -282,7 +282,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BRpower = -0.5;
             }
 
-            if (runtimeme2 > 16 && runtimeme2 <= 20 ) {
+            if (getRuntime > 16 && getRuntime <= 20 ) {
 
                 if (angles.firstAngle >= 90) {
 
@@ -302,7 +302,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-            if (runtimeme2 > 20 && runtimeme2 <= 24 ) {
+            if (getRuntime > 20 && getRuntime <= 24 ) {
 
                 FRpower = 0.5;
                 FLpower = 0.5;
@@ -310,7 +310,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0.5;
             }
 
-            if (runtimeme2 == 24) {
+            if (getRuntime == 24) {
 
                  FRpower = 0;
                  FLpower = 0;
@@ -318,7 +318,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                  BLpower = 0;
             }
 
-            if (runtimeme2 > 24 && runtimeme2 <= 26 ) {
+            if (getRuntime > 24 && getRuntime <= 26 ) {
 
                 if (angles.firstAngle >= 90) {
 
@@ -338,7 +338,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-            if (runtimeme2 == 26) {
+            if (getRuntime == 26) {
 
                 FRpower = 0;
                 FLpower = 0;
@@ -346,7 +346,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0;
             }
 
-            if (runtimeme2 > 26 && runtimeme2 <= 28 ) {
+            if (getRuntime > 26 && getRuntime <= 28 ) {
 
                 FRpower = 0.5;
                 FLpower = 0.5;
@@ -354,7 +354,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0.5;
             }
 
-            if (runtimeme2 == 28) {
+            if (getRuntime == 28) {
 
                 FRpower = 0;
                 FLpower = 0;
@@ -362,7 +362,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BLpower = 0;
             }
 
-            if (runtimeme2 > 28 && runtimeme2 <= 29) {
+            if (getRuntime > 28 && getRuntime <= 29) {
 
                 LIMpower = 0;
                 RIMpower = 1;
@@ -370,7 +370,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 TLIMpower = 1;
             }
 
-            if (runtimeme2 > 29 && runtimeme2 >= 30) {
+            if (getRuntime > 29 && getRuntime >= 30) {
 
                 FRpower = 0;
                 FLpower = 0;
