@@ -28,7 +28,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
-@Autonomous(name = "BlueLeft", group = "Sensor")
+@Autonomous(name = "NoGlyphBlueLeft", group = "Sensor")
 
 public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
@@ -304,7 +304,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 FLpower = 0;
                 BRpower = 0;
                 BLpower = 0;
-                
+
                 glyphLeft.setPosition(0); // 0.7 is the open position for glyph servo Left
                 glyphRight.setPosition(1); // 0.3 is the open position for glyph servo Right
                 topGlyphRight.setPosition(0);
