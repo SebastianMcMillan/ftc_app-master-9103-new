@@ -28,9 +28,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
-@Autonomous(name = "NoGlyphBlueLeft", group = "Sensor")
+@Autonomous(name = "NoGlyphRedRight", group = "Sensor")
 
-public class NoGlyphAutonBlueLeft extends LinearOpMode {
+public class NoGlyphAutonRedRight extends LinearOpMode {
 
     BNO055IMU imu;
     Orientation angles;
@@ -117,6 +117,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
         int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
         final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
+        /*
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters1 = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters1.vuforiaLicenseKey = "AVrtV3L/////AAAAmY05oAXJSExMnfA9isTrlL9Wb5BjKpqdWP7WVu7w5TmtQciN1tKAo7JfLoEq0JJWXVjt2so3vtllp36RFQ3Wge/pC38H1yIQSVOs0W2CQ28XuBlqNAGAvvI8Bz8T3Ju/JbxmvWqt0+nZaEzMINHUVQOG3PgvXqizMCpdoyJVW54KG24h4m/Zq6F0AngRm54R5E/GKrVkzmUi/DuPy0ZKwzCKyBWBUKLaU4dpP+WWmRzOz3+IaRrxNOMCaHhZEKH0f55MEcAerGSODxV3YtLZw0+HzChjiFRFVX7WffU9uxu2w6/2RXdMEFrmdtsUuleOODHL8jw1kORgaMXglBk3/mYhjM4Vzj6yiqqKcJ3nQ8a8";
@@ -127,6 +128,7 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
         int vuforiaPosition = 0;
+        */
         int LEFT = 5;
         int RIGHT = 10;
         int CENTER = 15;
@@ -196,22 +198,43 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
 
             telemetry.update();
 // "pseudocode" for un-alligned arm: turn left, go forward, turn right, reverse, drop jewel manipulator, color sensor on right side do that stuff then turn right then forward to crypto then right forward stop release
-            if (getRuntime() <= 3) { // literally does nothing for 3 secs
+
+            if (getRuntime() <= 3) { // literally does nothing for 3 secs but opens servos and moves down
 
                 FRpower = 0;
                 FLpower = 0;
                 BLpower = 0;
                 BRpower = 0;
-                A_ServoValue = 1;
+
+                //open to get
+                glyphLeft.setPosition(0.15);
+                glyphRight.setPosition(0.79);
+                topGlyphRight.setPosition(0.15);
+                topGlyphLeft.setPosition(0.82);
+                //moves down if can
+                if (glyphMotor.getCurrentPosition() <= -500 ){
+
+                    glyphMotor.setPower(0);
+                }
+                else if (glyphMotor.getCurrentPosition() > -500){
+
+                    glyphMotor.setPower(-1);
+                }
             }
 
-            /*if (getRuntime() > 3 && getRuntime() <= 5) { // turns left
-                FRpower = .5;
-                FLpower = 0;
-                BLpower = 0;
-                BRpower = .5;
+            //stop
+            if (getRuntime() > 3 && getRuntime() <= 4) { // closes servos and stops movement
+                glyphMotor.setPower(0);
+            }
+            //closes servos
+            if (getRuntime() > 3 && getRuntime() <= 4) { // closes servos and stops movement
+                glyphLeft.setPosition(0.25);
+                glyphRight.setPosition(0.69);
+                topGlyphRight.setPosition(0.25);
+                topGlyphLeft.setPosition(0.72);
             }
 
+            /*
             if (getRuntime() > 5 && getRuntime() <= 7) { // goes forward
                 FRpower = .5;
                 FLpower = .5;
@@ -226,20 +249,19 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BRpower = 0;
             }
 */
-            if (getRuntime() > 8 && getRuntime() <= 8.2) { // reverses
-                FRpower = -.5;
-                FLpower = -.5;
-                BLpower = -.5;
-                BRpower = -.5;
+            if (getRuntime() > 8 && getRuntime() <= (8.5)) { // reverses
+                FRpower = -.1;
+                FLpower = -.1;
+                BLpower = -.1;
+                BRpower = -.1;
             }
-            if (getRuntime() > 8.2 && getRuntime() <= 9) { // stahp dat boi - k
+
+            if (getRuntime() > 8.2 && getRuntime() <= 11) { // does jewel things and stahps dat boi - k
                 FRpower = 0;
                 FLpower = 0;
                 BLpower = 0;
                 BRpower = 0;
-            }
 
-            if (getRuntime() > 10 && getRuntime() <= 15) { // does jewel things
                 A_ServoValue = 0.4;
                 if (hsvValues[0] < 35 && sensorColor.red() > sensorColor.blue()) {
                     telemetry.addLine("This is red");
@@ -253,13 +275,13 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                     telemetry.addLine("What am I doing with my life?");
                 }
 
-                if (red == true) {
+                if (blue == true) {
 
                     FRpower = 0.5;
                     FLpower = -0.5;
-                    BLpower = 0.5;
-                    BRpower = -0.5;
-                } else if (blue == true) {
+                    BLpower = -0.5;
+                    BRpower = 0.5;
+                } else if (red == true) {
 
                     FRpower = -0.5;
                     FLpower = 0.5;
@@ -274,41 +296,46 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 }
             }
 
-            if (getRuntime() > 15 && getRuntime() <= 19) {
+            if (getRuntime() > 11 && getRuntime() <= 12) {
 
                 A_ServoValue = 1;
-                FRpower = .75;
-                FLpower = .75;
-                BLpower = .75;
-                BRpower = .75;
+            }
+            if (getRuntime() > 12 && getRuntime() <= 14) {
+
+                A_ServoValue = 1;
+                FRpower = .5;
+                FLpower = .5;
+                BLpower = .5;
+                BRpower = .5;
             }
 
-            if (getRuntime() > 19 && getRuntime() <= 20) {
+            if (getRuntime() > 14 && getRuntime() <= 15) {
                 FRpower = 0;
                 FLpower = 0;
                 BRpower = 0;
                 BLpower = 0;
             }
 
-            if (getRuntime() > 20 && getRuntime() <= 21) {
+            if (getRuntime() > 15 && getRuntime() <= 15.5) {
 
-                FRpower = 0;
-                FLpower = 0.25;
-                BRpower = 0;
-                BLpower = 0.25;
+                FRpower = .25;
+                FLpower = 0;
+                BRpower = .25;
+                BLpower = 0;
             }
 
-            if (getRuntime() > 21) {
+            if (getRuntime() > 15.5) {
 
                 FRpower = 0;
                 FLpower = 0;
                 BRpower = 0;
                 BLpower = 0;
 
-                glyphLeft.setPosition(0); // 0.7 is the open position for glyph servo Left
-                glyphRight.setPosition(1); // 0.3 is the open position for glyph servo Right
-                topGlyphRight.setPosition(0);
-                topGlyphLeft.setPosition(1);
+                // should drop glyph
+                glyphLeft.setPosition(0.15);
+                glyphRight.setPosition(0.79);
+                topGlyphRight.setPosition(0.15);
+                topGlyphLeft.setPosition(0.82);
             }
 
             //motors

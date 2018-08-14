@@ -10,9 +10,6 @@ import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * Created by Sebastian McMillan on 11/10/2017.
- */
 
 @TeleOp(name = "Ultima TeleOp", group = "Linear OpMode")
 

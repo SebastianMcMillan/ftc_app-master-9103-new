@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDist
 
 /**
  * Created by Sebastian McMillan on 2/6/18.
+ * KAYLAN WAS HERE ON 2/24/18
  */
 
 @TeleOp(name= "Setzer TeleOp", group = "Linear OpMode")
@@ -105,54 +106,46 @@ public class SetzerTeleOp extends LinearOpMode {
                 backLeft.setPower(0);
                 backRight.setPower(0);
             }
-            if (gamepad1.a){
+            if (gamepad1.a){ //closed
 
                 glyphLeft.setPosition(0.25);
                 glyphRight.setPosition(0.69);
                 topGlyphRight.setPosition(0.25);
                 topGlyphLeft.setPosition(0.72);
             }
-            if (gamepad1.b){
+            if (gamepad1.b){ //open
 
                 glyphLeft.setPosition(0.15);
                 glyphRight.setPosition(0.79);
                 topGlyphRight.setPosition(0.15);
                 topGlyphLeft.setPosition(0.82);
             }
-            if (gamepad1.dpad_up && positionGlyphMotor >= 5000 ){
+
+            if (gamepad1.dpad_down && positionGlyphMotor >= 6000 ){ // moves glyph manipulator up max
 
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad1.dpad_down && positionGlyphMotor <= 0 ){
+            if (gamepad1.dpad_up && positionGlyphMotor <= -500 ){ // moves glyph manipulator down max
 
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad1.dpad_up && positionGlyphMotor < 5000){
+            if (gamepad1.dpad_down && positionGlyphMotor < 6000){ // moves glyph manipulator up
 
                 glyphMotor.setPower(1);
             }
 
-            if (gamepad1.dpad_down && positionGlyphMotor > 0){
+            if (gamepad1.dpad_up && positionGlyphMotor > -500){ // moves glyph manipulator down
 
                 glyphMotor.setPower(-1);
             }
 
-            if (!gamepad1.dpad_down && !gamepad1.dpad_up) {
+            if (!gamepad1.dpad_down && !gamepad2.dpad_up) {
 
                 glyphMotor.setPower(0);
             }
 
-            if (gamepad1.x) {
-
-                jewelServo.setPosition(0);
-            }
-
-            if (gamepad1.y) {
-
-                jewelServo.setPosition(1);
-            }
 
 
         }

@@ -28,9 +28,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.Locale;
 
-@Autonomous(name = "NoGlyphBlueLeft", group = "Sensor")
+@Autonomous(name = "NoGlyphRedLeft", group = "Sensor")
 
-public class NoGlyphAutonBlueLeft extends LinearOpMode {
+public class NoGlyphAutonRedLeft extends LinearOpMode {
 
     BNO055IMU imu;
     Orientation angles;
@@ -226,13 +226,13 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                 BRpower = 0;
             }
 */
-            if (getRuntime() > 8 && getRuntime() <= 8.2) { // reverses
+            if (getRuntime() > 8 && getRuntime() <= 9) { // reverses
                 FRpower = -.5;
                 FLpower = -.5;
                 BLpower = -.5;
                 BRpower = -.5;
             }
-            if (getRuntime() > 8.2 && getRuntime() <= 9) { // stahp dat boi - k
+            if (getRuntime() > 9 && getRuntime() <= 10) { // stahp dat boi - k
                 FRpower = 0;
                 FLpower = 0;
                 BLpower = 0;
@@ -253,13 +253,13 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
                     telemetry.addLine("What am I doing with my life?");
                 }
 
-                if (red == true) {
+                if (blue == true) {
 
                     FRpower = 0.5;
                     FLpower = -0.5;
                     BLpower = 0.5;
                     BRpower = -0.5;
-                } else if (blue == true) {
+                } else if (red == true) {
 
                     FRpower = -0.5;
                     FLpower = 0.5;
@@ -293,9 +293,9 @@ public class NoGlyphAutonBlueLeft extends LinearOpMode {
             if (getRuntime() > 20 && getRuntime() <= 21) {
 
                 FRpower = 0;
-                FLpower = 0.25;
+                FLpower = .25;
                 BRpower = 0;
-                BLpower = 0.25;
+                BLpower = .25;
             }
 
             if (getRuntime() > 21) {
