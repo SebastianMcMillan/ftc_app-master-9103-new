@@ -99,5 +99,6 @@ repositories {
     flatDir {
         dirs rootProject.file('libs')
     }
+    google()
 }
 apply from: 'build.release.gradle'
